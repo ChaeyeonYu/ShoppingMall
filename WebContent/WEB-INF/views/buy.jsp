@@ -11,11 +11,26 @@ $(function(){
 	});
 	
 	//주문하기
-	$("#btn_order").click(function(){
-		console.log("order");
+	$("#btn_order").click(function(e){
+		e.preventDefault();
+		
+		var buy_receiver = $("input[name=buy_receiver]").val();
 		var user_tel = $("input[name=user_tel]").val();
 		var uset_address = $("input[name=user_address]").val();
-		location.href = "buy-pro.user-cy?user_tel="+user_tel+"&uset_address="+uset_address;
+		
+		if(buy_receiver == ""){
+			alert("수령인을 입력해주세요.");
+			return;
+		}
+		if(user_tel == ""){
+			alert("연락처를 입력해주세요.");
+			return;
+		}
+		if(uset_address == ""){
+			alert("배송지를 입력해주세요.");
+			return;
+		}
+		$("#buy_form").submit();
 	});
 });
 </script>
@@ -121,31 +136,39 @@ $(function(){
 <hr style="margin-left: 100px; margin-right: 100px;">
 <br>
 
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-1"></div>
 		<div class="col-md-10">
 			<h4>배송정보</h4><br>
 			
+			<form action="buy-pro.user-cy" method="post" id="buy_form">
 			<div class="row">
 				<div class="col-md-4">
+					<p>수령인</p>
 					<p>연락처</p>
 					<p>배송지</p>
 				</div>
 				<div class="col-md-8">
 				
+				<input type="text" name="buy_receiver" class="form-control" 
+						required placeholder="수령인을 입력해주세요."/>
 				<input type="text" name="user_tel" value="${userVo.user_tel}" class="form-control" 
 						required placeholder="연락처를 입력해주세요."/>
 				<input type="text" name="user_address" value="${userVo.user_address}" class="form-control" 
 						required placeholder="주소를 입력해주세요."/>
 				</div>
 			</div>
+			</form>
+			
 			
 		</div>
 		<div class="col-md-1"></div>
 	</div>
 	
 </div>
+
 
 <br><br>
 

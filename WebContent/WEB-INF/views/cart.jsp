@@ -33,11 +33,13 @@ $(function(){
 		var cart_num = $(this).attr("data-cart-num");
 		var user_id = $("input[name=user_id]").val();
 		
-		var cart_total = $("#cart_total");
-		var cart_total_num = Number(cart_total.text().trim());
+		var cart_total_num = Number($("#cart_total").text().trim());
 		var product_price_num = Number(that.attr("data-product-price"));
-		var product_count_num = Number(that.attr("data-product-count"));
+		var product_count_num = Number(that.parent().parent().find(".numBox").val());
 		
+// 		test
+		console.log(product_price_num * product_count_num);
+
 		var sData = {
 				"cart_num" : cart_num,
 				"user_id" : user_id
@@ -46,17 +48,16 @@ $(function(){
 		$.post("cart-delete.ajax-cy", sData, function(rData){
 			if(rData.trim() == "success"){
 				that.parent().parent().remove();
-				cart_total.text(cart_total_num - (product_price_num * product_count_num));
-				
-				var img = $(".remove_img");
+				$("#cart_total").text(cart_total_num - (product_price_num * product_count_num));
 				
 				//선택한 행만 삭제하다가 tbody의 내용이 없다면 emptyCart()를 실행
+				var img = $(".remove_img");
 				if($("#tbl_cart").find(img).val() == null){
 					$("#tbl_cart").remove();
 					emptyCart();
-				}
-			}
-		});
+				} //if
+			} //if rData.trim()
+		}); //$.post
 	});
 	
 	//전체삭제 버튼 클릭
@@ -89,6 +90,7 @@ $(function(){
 	
 	//수량버튼 +
 	$(".plus").on("click", function(){
+// 		var that = $(this);
 		var num = $(this).prev().val();
 		var max = $(this).attr("data-product-max");
 		var plusNum = Number(num) + 1;
@@ -208,7 +210,7 @@ $(function(){
 							 >+</button></td>
 							 
 						<td><a href="#" data-cart-num="${vo.cart_num}" data-product-price="${vo.product_price}" 
-							data-product-count="${vo.product_count}" 
+							data-product-count="${vo.product_count}"  data-product-num="${vo.product_num}"
 							class="remove_img"><img alt="remove" src="img/remove.png" width="30" height="30" />
 						</a></td>
 					</tr>

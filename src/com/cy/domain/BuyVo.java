@@ -10,12 +10,17 @@ public class BuyVo {
 	private Timestamp buy_date;
 	private String user_address;
 	private String user_tel;
+	private String buy_receiver;
+	
+	private String product_name;
+	private int product_price;
 	
 	public BuyVo() {
 		super();
 	}
+	
 	public BuyVo(int buy_num, String user_id, int product_num, int product_count, Timestamp buy_date,
-			String user_address, String user_tel) {
+			String user_address, String user_tel, String buy_receiver, String product_name, int product_price) {
 		super();
 		this.buy_num = buy_num;
 		this.user_id = user_id;
@@ -24,8 +29,11 @@ public class BuyVo {
 		this.buy_date = buy_date;
 		this.user_address = user_address;
 		this.user_tel = user_tel;
+		this.buy_receiver = buy_receiver;
+		this.product_name = product_name;
+		this.product_price = product_price;
 	}
-	
+
 	public int getBuy_num() {
 		return buy_num;
 	}
@@ -68,11 +76,19 @@ public class BuyVo {
 	public void setUser_tel(String user_tel) {
 		this.user_tel = user_tel;
 	}
-	
+	public String getBuy_receiver() {
+		return buy_receiver;
+	}
+	public void setBuy_receiver(String buy_receiver) {
+		this.buy_receiver = buy_receiver;
+	}
+
 	@Override
 	public String toString() {
 		return "BuyVo [buy_num=" + buy_num + ", user_id=" + user_id + ", product_num=" + product_num
 				+ ", product_count=" + product_count + ", buy_date=" + buy_date + ", user_address=" + user_address
-				+ ", user_tel=" + user_tel + "]";
+				+ ", user_tel=" + user_tel + ", buy_receiver=" + buy_receiver + ", product_name=" + product_name
+				+ ", product_price=" + product_price + "]";
 	}
+	
 }
