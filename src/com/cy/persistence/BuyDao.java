@@ -10,6 +10,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.cy.domain.CartVo;
 import com.cy.domain.CategoryVo;
 import com.cy.domain.UserVo;
 
@@ -43,7 +44,27 @@ public class BuyDao {
 		if (rs != null) try { rs.close(); } catch (Exception e) { }
 	}
 	
+	//재고가 충분한지 검사
 	
+	public boolean order(List<CartVo> list) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			String sql = "insert all ";
+			
+				sql	+= " into tbl_test(buy_num, user_id, product_num, product_count, "
+								   + " buy_date, user_address, user_tel) "
+					        + " values(seq_buy_num.nextval, ?, ?, ?, "
+					        	   + " sysdate, ?, ?) ";
+				
+				sql += " select * from dual";
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, null);
+		} return false;
+	}
 	
 	
 }

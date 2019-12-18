@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -149,8 +150,53 @@ public class CartDao {
 	}
 	
 	//장바구니 업데이트
+	public void updateCart(Map<String, Object> paramMap){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "update tbl_cart set product_count = ? "
+						+ " where cart_num = ? and user_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (int)paramMap.get("product_count"));
+			pstmt.setInt(2, (int)paramMap.get("cart_num"));
+			pstmt.setString(3, (String)paramMap.get("user_id"));
+			int count = pstmt.executeUpdate();
+//			if(count > 0) {
+//				return true;
+//			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, null);
+		} 
+//		return false;
+	}
+	
 	
 	//장바구니 제품 1개 삭제
+	public boolean deleteCart(int cart_num, String user_id){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "delete from tbl_cart where cart_num = ? and user_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cart_num);
+			pstmt.setString(2, user_id);
+			int count = pstmt.executeUpdate();
+			if(count > 0){
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, null);
+		} return false;
+	}
+	
 	
 	//장바구니 제품 전체 삭제
 	public boolean deleteAllCart(String user_id){

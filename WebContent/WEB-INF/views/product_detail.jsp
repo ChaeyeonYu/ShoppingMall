@@ -6,6 +6,9 @@
 <script>
 $(function(){
 	
+	//SHOP(현재 페이지)에 붉은색
+// 	$(".header_a:eq(1)").attr("style", "color:red");
+	
 // 	var v = "${sessionScope.msg}";
 	
 // 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -97,10 +100,11 @@ $(function(){
 		});
 	});
 	
-	
 	//구매하기 버튼 클릭
 	$("#btn_buy").click(function(){
-		console.log("buy");
+		var product_count = $(".numBox").val();
+		var product_num = $(this).attr("data-product-num"); 
+		location.href = "buy-now.user-cy?product_num="+product_num+"&product_count="+product_count;
 	});
 });
 </script>

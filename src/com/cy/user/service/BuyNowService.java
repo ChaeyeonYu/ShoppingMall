@@ -1,14 +1,22 @@
 package com.cy.user.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
+import com.cy.domain.CartVo;
+import com.cy.domain.ProductVo;
+import com.cy.persistence.CartDao;
+import com.cy.persistence.ProductDao;
 
-public class BuyListService implements IShoppingMallService {
+public class BuyNowService implements IShoppingMallService {
 
+	private ProductDao productDao = ProductDao.getInstance();
+	
 	@Override
 	public String excute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -22,7 +30,15 @@ public class BuyListService implements IShoppingMallService {
 			session.setAttribute("msg", "not_login");
 			return page;
 		}
-		page = "WEB-INF/views/buy_list.jsp";
+		
+		int product_num = Integer.parseInt(request.getParameter("product_num"));
+		int product_count = Integer.parseInt(request.getParameter("product_count"));
+		ProductVo productVo = productDao.getProductInfoByProductNum(product_num);
+		productVo.setProduct_count(product_count);
+		
+		request.setAttribute("vo", productVo);
+		
+		page = "WEB-INF/views/buy_now.jsp";
 		
 		return page;
 	}

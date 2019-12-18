@@ -105,5 +105,30 @@ public class UserDao {
 		return 0;
 	}
 	
+	//해당 아이디 정보 조회
+	public UserVo getUserInfo(String user_id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select * from tbl_user where user_id = '" + user_id + "'";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				UserVo userVo = new UserVo();
+				userVo.setUser_name(rs.getString("user_name"));
+				userVo.setUser_address(rs.getString("user_address"));
+				userVo.setUser_tel(rs.getString("user_tel"));
+				return userVo;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
+		} return null;
+	}
+	
 	
 }

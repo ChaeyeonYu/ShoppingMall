@@ -12,6 +12,8 @@ public class ProductVo {
 	private String product_img;
 	private int product_stock;
 	private Timestamp product_reg_date;
+	
+	private int product_count;
 	public ProductVo() {
 		super();
 	}
@@ -83,11 +85,17 @@ public class ProductVo {
 	public void setProduct_reg_date(Timestamp product_reg_date) {
 		this.product_reg_date = product_reg_date;
 	}
+	public int getProduct_count() {
+		return product_count;
+	}
+	public void setProduct_count(int product_count) {
+		this.product_count = product_count;
+	}
 	@Override
 	public String toString() {
 		return "ProductVo [product_num=" + product_num + ", product_name=" + product_name + ", category_code="
 				+ category_code + ", category_name=" + category_name + ", product_content=" + product_content
 				+ ", product_price=" + product_price + ", product_img=" + product_img + ", product_stock="
-				+ product_stock + ", product_reg_date=" + product_reg_date + "]";
+				+ product_stock + ", product_reg_date=" + product_reg_date + ", product_count=" + product_count + "]";
 	}
 }

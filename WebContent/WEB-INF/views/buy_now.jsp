@@ -4,32 +4,25 @@
 
 <script>
 $(function(){
+	
 	//카트에 있는 제품 클릭시 상세보기로 이동
 	$(".product_a").on("click", function(e){
 		var product_num = $(this).attr("data-product-num");
 		location.href = "product-detail.cy?product_num="+product_num;
 	});
-	
-	//주문하기
-	$("#btn_order").click(function(){
-		console.log("order");
-		var user_tel = $("input[name=user_tel]").val();
-		var uset_address = $("input[name=user_address]").val();
-		location.href = "buy-pro.user-cy?user_tel="+user_tel+"&uset_address="+uset_address;
-	});
 });
 </script>
 
 
-<div class="container-fluid" align="right">
-	<div class="row">
-		<div class="col-md-1"></div>
-		<div class="col-md-10" align="right">
-			<a href="cart.user-cy">장바구니로</a>
-		</div>
-		<div class="col-md-1"></div>
-	</div>
-</div>
+<!-- <div class="container-fluid" align="right"> -->
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-md-1"></div> -->
+<!-- 		<div class="col-md-10" align="right"> -->
+<!-- 			<a href="cart.user-cy">장바구니로</a> -->
+<!-- 		</div> -->
+<!-- 		<div class="col-md-1"></div> -->
+<!-- 	</div> -->
+<!-- </div> -->
 
 <br><br>
 
@@ -51,7 +44,6 @@ $(function(){
 			</thead>
 				
 			<tbody>
-				<c:forEach items="${list}" var="vo">
 				<tr>
 					<c:choose>
 						<c:when test="${not empty vo.product_img}">
@@ -70,7 +62,6 @@ $(function(){
 					<td>${vo.product_price}</td>
 					<td>${vo.product_count}</td>
 				</tr>
-				</c:forEach>
 				</tbody>	
 				
 			</table>
@@ -94,16 +85,7 @@ $(function(){
 				<div class="col-md-4" style="display: inline;">
 					<h3 style="display: inline;"><strong>TOTALS : </strong> </h3><br>
 					<h3 style="display: inline;" id="buy_total">
-						<c:choose>
-						<c:when test="${empty list}">0</c:when>
-						<c:otherwise>
-							<c:set var="sum" value="0"/>
-							<c:forEach items="${list}" var="vo">
-								<c:set var="sum" value="${sum + vo.product_count * vo.product_price}"/>
-							</c:forEach>
-							<c:out value="${sum}"/>
-						</c:otherwise>
-						</c:choose>
+						 ${vo.product_price * vo.product_count}
 					</h3>
 				</div>
 				<div class="col-md-4">
@@ -117,50 +99,6 @@ $(function(){
 	</div>
 </div>
 
-<br><br>
-<hr style="margin-left: 100px; margin-right: 100px;">
 <br>
-
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-1"></div>
-		<div class="col-md-10">
-			<h4>배송정보</h4><br>
-			
-			<div class="row">
-				<div class="col-md-4">
-					<p>연락처</p>
-					<p>배송지</p>
-				</div>
-				<div class="col-md-8">
-				
-				<input type="text" name="user_tel" value="${userVo.user_tel}" class="form-control" 
-						required placeholder="연락처를 입력해주세요."/>
-				<input type="text" name="user_address" value="${userVo.user_address}" class="form-control" 
-						required placeholder="주소를 입력해주세요."/>
-				</div>
-			</div>
-			
-		</div>
-		<div class="col-md-1"></div>
-	</div>
-	
-</div>
-
-<br><br>
-
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-1"></div>
-		<div class="col-md-10">
-			<button type="button" id="btn_order" class="btn btn-block btn-outline-secondary">
-				주문하기
-			</button>
-		</div>
-		<div class="col-md-1"></div>
-	</div>
-</div>
-
-<br><br><br>
 
 <%@ include file="include/footer.jsp" %>

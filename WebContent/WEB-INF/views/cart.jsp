@@ -9,10 +9,17 @@ $(function(){
 	//CART(현재 페이지)에 붉은색
 	$(".header_a:eq(2)").attr("style", "color:red");
 	
-// 	function getCartList(){}
-	
-	//CART_TOTAL
-// 	$("#cart_total");
+	//빈 장바구니 함수
+	function emptyCart(){
+		var div = "<div class='col-md-1'></div>";
+		div += "<div class='col-md-10' align='center'>";
+		div += "<p>장바구니가 비어있습니다.</p>";
+		div += "</div>";
+		div += "<div class='col-md-1'></div>";
+		
+		$("#content_div").append(div); //장바구니 목록 비우기
+		$("#cart_total").text("0");	   //장바구니 제품 총 합계를 0으로 설정
+	}
 	
 	//장바구니에 있는 제품 클릭시 상세보기로 이동
 	$(".product_a").on("click", function(e){
@@ -22,15 +29,38 @@ $(function(){
 	
 	//X 이미지 클릭 //선택삭제
 	$(".remove_img").on("click", function(){
+		var that = $(this);
 		var cart_num = $(this).attr("data-cart-num");
-		console.log(cart_num);
+		var user_id = $("input[name=user_id]").val();
 		
-		//선택한 행만 삭제 후 가격 변경
+		var cart_total = $("#cart_total");
+		var cart_total_num = Number(cart_total.text().trim());
+		var product_price_num = Number(that.attr("data-product-price"));
+		var product_count_num = Number(that.attr("data-product-count"));
+		
+		var sData = {
+				"cart_num" : cart_num,
+				"user_id" : user_id
+		};
+		
+		$.post("cart-delete.ajax-cy", sData, function(rData){
+			if(rData.trim() == "success"){
+				that.parent().parent().remove();
+				cart_total.text(cart_total_num - (product_price_num * product_count_num));
+				
+				var img = $(".remove_img");
+				
+				//선택한 행만 삭제하다가 tbody의 내용이 없다면 emptyCart()를 실행
+				if($("#tbl_cart").find(img).val() == null){
+					$("#tbl_cart").remove();
+					emptyCart();
+				}
+			}
+		});
 	});
 	
 	//전체삭제 버튼 클릭
 	$("#btn_remove_all").on("click", function(){
-		
 		var removeAllConfirm = confirm('정말 장바구니 전체를 삭제하시겠습니까?');
  		if(!removeAllConfirm){ return; }
 		
@@ -39,40 +69,43 @@ $(function(){
 		$.post("cart-delete-all.ajax-cy", {"user_id" : user_id}, function(rData){
 			if(rData.trim() == "success"){
 				$("#tbl_cart").remove();
-				
-				var div = "<div class='col-md-1'></div>";
-				div += "<div class='col-md-10' align='center'>";
-				div += "<p>장바구니가 비어있습니다.</p>";
-				div += "</div>";
-				div += "<div class='col-md-1'></div>";
-				
-				$("#content_div").append(div); //장바구니 목록 비우기
-				$("#cart_total").text("0");	   //장바구니 제품 총 합계를 0으로 설정
+				emptyCart();
 			}
 		});
 	});
 	
 	//수정
-	$("#btn_update").on("click", function(){
-		console.log("update click");
-	});
-	
-	//주문
-	$("#btn_buy").on("click", function(e){
-		e.preventDefault();
-		console.log("buy click");
-	});
+	//+, - 버튼 눌렀을 때 실행하기
+	//카트번호, 수량, 사용자
+	function update(cart_num, product_count, user_id){
+		var sData = {
+				"cart_num" : cart_num,
+				"product_count" : product_count,
+				"user_id" : user_id,
+		};
+		
+		$.post("cart-update.ajax-cy", sData, function(){});
+	}	
 	
 	//수량버튼 +
 	$(".plus").on("click", function(){
 		var num = $(this).prev().val();
 		var max = $(this).attr("data-product-max");
 		var plusNum = Number(num) + 1;
+		
+		var cart_num = $(this).attr("data-cart-num"); 
+		var user_id = $("input[name=user_id]").val();
+		
+		var cart_total = $("#cart_total");
+		var cart_total_num = Number(cart_total.text().trim());
+		var product_price_num = Number($(this).attr("data-product-price"));
 		   
 		if(plusNum > max) {
 			$(this).prev().val(num);
 		} else {
 			$(this).prev().val(plusNum);
+			update(cart_num, plusNum, user_id);
+			cart_total.text(cart_total_num + product_price_num);
 		}
 	});
 	
@@ -80,12 +113,28 @@ $(function(){
 	$(".minus").on("click", function(){
 		var num = $(this).next().val();
 		var minusNum = Number(num) - 1;
+		
+		var cart_num = $(this).attr("data-cart-num"); 
+		var user_id = $("input[name=user_id]").val();
+		
+		var cart_total = $("#cart_total");
+		var cart_total_num = Number(cart_total.text().trim());
+		var product_price_num = Number($(this).attr("data-product-price"));
 		   
 		if(minusNum <= 0) {
 		    $(this).next().val(num);
 		} else {
-		    $(this).next().val(minusNum);
+			$(this).next().val(minusNum);
+			update(cart_num, minusNum, user_id);
+			cart_total.text(cart_total_num - product_price_num);
 		}
+	});
+	
+	
+	//주문
+	$("#btn_buy").on("click", function(e){
+		var user_id = $("input[name=user_id]").val();
+		location.href = "buy.user-cy?user_id=" + user_id;
 	});
 });
 </script>
@@ -117,6 +166,7 @@ $(function(){
 		</div>
 		<div class="col-md-10" align="center">
 			<table class="table" id="tbl_cart">
+			
 				<thead align="center">
 					<tr align="center">
 						<th>IMAGE</th>
@@ -126,6 +176,7 @@ $(function(){
 						<th>REMOVE</th>
 					</tr>
 				</thead>
+				
 				<tbody>
 					<c:forEach items="${list}" var="vo">
 					<tr>
@@ -146,22 +197,27 @@ $(function(){
 						<td>${vo.product_price}</td>
 						
 						<td><button type="button" class="minus" style="border: none; background: none;"
+								data-product-price="${vo.product_price}" data-cart-num="${vo.cart_num}"
 							 >-</button>
 							 
 						 	<input type="number" class="numBox" min="1" max="${vo.product_stock}" value="${vo.product_count}" readonly/>
 						 	
 							<button type="button" class="plus" style="border: none; background: none;"
-							 	 data-product-max="${vo.product_stock}"
+							 	 data-product-max="${vo.product_stock}" data-product-price="${vo.product_price}"
+							 	 data-cart-num="${vo.cart_num}"
 							 >+</button></td>
 							 
-						<td><a href="#" data-cart-num="${vo.cart_num}" class="remove_img">
-								<img alt="remove" src="img/remove.png" width="30" height="30" />
+						<td><a href="#" data-cart-num="${vo.cart_num}" data-product-price="${vo.product_price}" 
+							data-product-count="${vo.product_count}" 
+							class="remove_img"><img alt="remove" src="img/remove.png" width="30" height="30" />
 						</a></td>
 					</tr>
 					</c:forEach>
-				
 				</tbody>	
+				
 			</table>
+			
+			<!-- 구매, 전체 삭제 버튼들 START -->
 			<div class="row" align="right">
 				<div class="col-md-4">
 				</div>
@@ -170,12 +226,8 @@ $(function(){
 				<div class="col-md-4" align="right">
 					<ul class="nav">
 						<li class="nav-item">
-							<button type="submit" class="btn btn-lg btn-block btn-outline-secondary"
+							<button type="button" class="btn btn-lg btn-block btn-outline-secondary"
 								id="btn_buy">BUY</button>
-						</li>
-						<li class="nav-item">
-							<button type="button" class="btn btn-lg btn-block btn-outline-secondary" 
-								id="btn_update">UPDATE</button>
 						</li>
 						<li class="nav-item">
 							<button type="button" class="btn btn-lg btn-block btn-outline-secondary" 
@@ -184,6 +236,7 @@ $(function(){
 					</ul>
 				</div>
 			</div>
+			<!-- 구매, 전체 삭제 버튼들 END -->
 		</div>
 		<div class="col-md-1">
 		</div>
