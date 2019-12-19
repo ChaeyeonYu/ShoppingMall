@@ -59,8 +59,7 @@ public class BuyDao {
 		PreparedStatement pstmt2 = null;
 		ResultSet rs = null;
 		
-//		List<?> resultList = new ArrayList<>();
-		
+		System.out.println(list.size());
 		System.out.println(list);
 		
 		try {
@@ -70,17 +69,22 @@ public class BuyDao {
 			String sql = "update tbl_product set product_stock = product_stock - ? where product_num = ?";
 			System.out.println(sql);
 			
-			int index = 0;
-			pstmt = conn.prepareStatement(sql);
+			int count = 0;
 			
-			for(CartVo vo : list) {
-//			for(int i=0; i<list.size(); i++) {
-				pstmt.setInt(++index, vo.getProduct_count());
-				System.out.printf("%d, product_count: %d\n", index, vo.getProduct_count());
-				pstmt.setInt(++index, vo.getProduct_num());
-				System.out.printf("%d, product_num: %d\n", index, vo.getProduct_num());
+//			for(CartVo vo : list) {
+			for(int i=0; i<list.size(); i++) {
+				pstmt = conn.prepareStatement(sql);
+				
+				CartVo vo = list.get(i);
+				System.out.println(vo);
+				pstmt.setInt(++count, vo.getProduct_count());
+				System.out.printf("%d, product_count: %d\n", count, vo.getProduct_count());
+				pstmt.setInt(++count, vo.getProduct_num());
+				System.out.printf("%d, product_num: %d\n", count, vo.getProduct_num());
+				
+				pstmt.executeUpdate();
 			}
-			pstmt.executeUpdate();
+			
 			
 			String sql2 = "select count(*) cnt from tbl_product where product_num = ? and product_stock < 0";
 			System.out.println("===============================================");
@@ -139,10 +143,14 @@ public class BuyDao {
 			conn = getConnection();
 			
 			//재고 차감, 재고 검사
-			boolean updateStockResult = updateStock(list);
-			if(!updateStockResult) {
-				return false;
-			}
+//			boolean updateStockResult = updateStock(list);
+//			if(!updateStockResult) {
+//				return false;
+//			}
+			
+			System.out.println(list);
+			System.out.println(paramMap);
+			
 			String sql = "insert all ";
 			for(int i=0; i<list.size(); i++){
 				sql	+= " into tbl_buy(buy_num, user_id, product_num, product_count, "

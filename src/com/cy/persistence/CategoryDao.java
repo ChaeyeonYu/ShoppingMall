@@ -120,23 +120,43 @@ public class CategoryDao {
 	}
 	
 	//카테고리 삭제
-	//삭제시 해당 카테고리의 제품들도 삭제하기 @@@@@@@@@@@
+	//삭제시 해당 카테고리의 제품들도 삭제
 	public boolean deleteCategory(String category_code){
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
 		
 		try {
 			conn = getConnection();
+			conn.setAutoCommit(false);
+			
+			String sql2 = "delete from tbl_product "
+						 + " where category_code = '" + category_code + "'";
+			pstmt2 = conn.prepareStatement(sql2);
+			pstmt2.executeUpdate();
+			
 			String sql = "delete from tbl_category "
 						+ " where category_code = '" + category_code + "'";
 			pstmt = conn.prepareStatement(sql);
 			int count = pstmt.executeUpdate();
 			if(count > 0){
+				conn.commit();
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			closeAll(null, pstmt2, null);
 			closeAll(conn, pstmt, null);
 		} return false;
 	}

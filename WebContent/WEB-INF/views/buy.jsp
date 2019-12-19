@@ -152,7 +152,7 @@ $(function(){
 				</div>
 				<div class="col-md-8">
 				
-				<input type="text" name="buy_receiver" class="form-control" 
+				<input type="text" name="buy_receiver" class="form-control" value="${userVo.user_name}"
 						required placeholder="수령인을 입력해주세요."/>
 				<input type="text" name="user_tel" value="${userVo.user_tel}" class="form-control" 
 						required placeholder="연락처를 입력해주세요."/>

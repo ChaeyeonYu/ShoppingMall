@@ -1,5 +1,6 @@
 package com.cy.user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +46,24 @@ public class BuyProService implements IShoppingMallService {
 		paramMap.put("user_address", user_address);
 		paramMap.put("user_id", user_id);
 		
-		//장바구니에 있는 내역 받기
-		List<CartVo> cartList = cartDao.getCartList(user_id);
+		List<CartVo> cartList = new ArrayList<>();
 		
-		//장바구니 내역들을 BuyDao.insert 하기
+		//바로 구매인지 장바구니에 있는 내역을 구매한건지 확인
+		String buy_now = request.getParameter("buy_now");
+		if(buy_now!=null && buy_now.equals("Y")){
+			//바로 구매 폼의 내역을 받기
+			int product_num = Integer.parseInt(request.getParameter("product_num"));
+			int product_count = Integer.parseInt(request.getParameter("product_count"));
+			CartVo vo = new CartVo();
+			vo.setProduct_num(product_num);
+			vo.setProduct_count(product_count);
+			cartList.add(vo);
+		}else{
+			//장바구니에 있는 내역 받기
+			cartList = cartDao.getCartList(user_id);
+		}
+		
+		//주문 내역들을 BuyDao.insert 하기
 		boolean result = buyDao.order(cartList, paramMap);
 		int buy_num = 0;
 		if(result){
@@ -67,7 +82,7 @@ public class BuyProService implements IShoppingMallService {
 		
 		System.out.println("order service result: " + result);
 		
-		page = IConstants.STR_REDIRECT + "buy-resul.user-cy?buy_num="+buy_num;
+		page = IConstants.STR_REDIRECT + "buy-result.user-cy?buy_num="+buy_num;
 //		page = IConstants.STR_REDIRECT + "main.cy";
 		return page;
 	}

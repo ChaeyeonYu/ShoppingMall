@@ -10,12 +10,15 @@ import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
 import com.cy.domain.CartVo;
 import com.cy.domain.ProductVo;
+import com.cy.domain.UserVo;
 import com.cy.persistence.CartDao;
 import com.cy.persistence.ProductDao;
+import com.cy.persistence.UserDao;
 
 public class BuyNowService implements IShoppingMallService {
 
 	private ProductDao productDao = ProductDao.getInstance();
+	private UserDao userDao = UserDao.getInstance();
 	
 	@Override
 	public String excute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -35,8 +38,10 @@ public class BuyNowService implements IShoppingMallService {
 		int product_count = Integer.parseInt(request.getParameter("product_count"));
 		ProductVo productVo = productDao.getProductInfoByProductNum(product_num);
 		productVo.setProduct_count(product_count);
-		
 		request.setAttribute("vo", productVo);
+		
+		UserVo userVo = userDao.getUserInfo(user_id);
+		request.setAttribute("userVo", userVo);
 		
 		page = "WEB-INF/views/buy_now.jsp";
 		
