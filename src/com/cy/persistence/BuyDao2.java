@@ -19,14 +19,14 @@ import com.cy.domain.CartVo;
 import com.cy.domain.CategoryVo;
 import com.cy.domain.UserVo;
 
-public class BuyDao {
+public class BuyDao2 {
 //	public static final int ORDER_FAIL = -1;
-	private static BuyDao instance;
-	private BuyDao(){ /* singleton */ };
+	private static BuyDao2 instance;
+	private BuyDao2(){ /* singleton */ };
 	
-	public static BuyDao getInstance(){
+	public static BuyDao2 getInstance(){
 		if( instance == null ){
-			instance = new BuyDao();
+			instance = new BuyDao2();
 		}
 		return instance;
 	}
@@ -61,8 +61,6 @@ public class BuyDao {
 		
 //		List<?> resultList = new ArrayList<>();
 		
-		System.out.println(list);
-		
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
@@ -71,16 +69,14 @@ public class BuyDao {
 			System.out.println(sql);
 			
 			int index = 0;
-			pstmt = conn.prepareStatement(sql);
-			
 			for(CartVo vo : list) {
-//			for(int i=0; i<list.size(); i++) {
+				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(++index, vo.getProduct_count());
 				System.out.printf("%d, product_count: %d\n", index, vo.getProduct_count());
 				pstmt.setInt(++index, vo.getProduct_num());
 				System.out.printf("%d, product_num: %d\n", index, vo.getProduct_num());
+				pstmt.executeUpdate();
 			}
-			pstmt.executeUpdate();
 			
 			String sql2 = "select count(*) cnt from tbl_product where product_num = ? and product_stock < 0";
 			System.out.println("===============================================");

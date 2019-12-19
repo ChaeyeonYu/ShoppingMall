@@ -1,39 +1,34 @@
 package com.cy.user.service;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
 import com.cy.domain.BuyVo;
 import com.cy.persistence.BuyDao;
 
-public class BuyListService implements IShoppingMallService {
+public class BuyResultService implements IShoppingMallService {
 
 	private BuyDao buyDao = BuyDao.getInstance();
 	
 	@Override
 	public String excute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		//로그인한 사용자인지 아닌지 확인 
-		//비회원일 경우 main 페이지로 리다이렉트
-		String page = IConstants.STR_REDIRECT +  "main.cy";
-						
+		String page = "WEB-INF/views/buy_fail.jsp";
+		
 		HttpSession session = request.getSession();
 		String user_id = (String)session.getAttribute("user_id");
-		if(user_id == null || user_id.equals("")) {
-			session.setAttribute("msg", "not_login");
-			return page;
+		
+		int buy_num = Integer.parseInt(request.getParameter("buy_num"));
+		if(buy_num != 0) {
+			
+			List<BuyVo> list = buyDao.getOrder(user_id, buy_num);
+			request.setAttribute("list", list);
+			page = "WEB-INF/views/buy_success.jsp";
 		}
-		
-		List<BuyVo> list = buyDao.getOrderListAll(user_id);
-		request.setAttribute("list", list);
-		
-		page = "WEB-INF/views/buy_list.jsp";
 		
 		return page;
 	}

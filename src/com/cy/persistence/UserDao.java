@@ -130,5 +130,40 @@ public class UserDao {
 		} return null;
 	}
 	
+	public boolean updateUserInfo(UserVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			
+			//입력한 비밀번호가 맞을 때만 개인정보를 수정
+			int checkUserResult = userCheck(vo.getUser_id(), vo.getUser_passwd());
+			if(checkUserResult != UserDao.LOGIN_SUCCESS) {
+				return false;
+			}
+			
+			String sql = "update tbl_user set "
+						+ " user_name = ?, "
+						+ " user_address = ?, "
+						+ " user_tel = ? "
+						+ " where user_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getUser_name());
+			pstmt.setString(2, vo.getUser_address());
+			pstmt.setString(3, vo.getUser_tel());
+			pstmt.setString(4, vo.getUser_id());
+			
+			int count = pstmt.executeUpdate();
+			if(count > 0) {
+				return true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, null);
+		} return false;
+	}
 	
 }

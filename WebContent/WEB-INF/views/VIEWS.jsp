@@ -20,8 +20,8 @@
 		 구매하기 폼(구매시 배송지 정보 기입) O
 		 	장바구니 전체, 
 		 	단품 바로 구매 
-		 개인정보 수정 폼 
-		 구매내역 폼 
+		 개인정보 수정 폼 O 
+		 구매내역 폼 O
 
 
 관리자 - 카테고리 전체보기 O
@@ -39,7 +39,20 @@
 		 회원 정보 전체보기 폼??
 		 회원 주문내역??
 		 
-		 
+가게 소개 페이지도 넣기@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@		 
+		
+		
+https://wisefour.github.io/gabe-manual/ko/manual/admin/order
+
+rollback;
+update tbl_user set user_name = '뭉쨔' , user_address = '하와이 뭉치집', user_tel = '000' where user_id = 'hong';
+commit;
+
+select * from tbl_product;
+
+update tbl_product set product_stock = product_stock - 50 where product_num = 1;
+
+select count(*) from tbl_product where product_num = 1 and product_stock < 0;
 		 
 ==================================================================
 insert all

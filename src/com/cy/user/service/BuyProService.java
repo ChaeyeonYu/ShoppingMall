@@ -50,30 +50,25 @@ public class BuyProService implements IShoppingMallService {
 		
 		//장바구니 내역들을 BuyDao.insert 하기
 		boolean result = buyDao.order(cartList, paramMap);
+		int buy_num = 0;
 		if(result){
 			//주문 성공시 받아온 주소로 사용자 주소 업데이트
 			buyDao.updateUserAddress(paramMap);
 			
-//			BuyVo buyVo = new BuyVo();
-//			buyVo.setBuy_receiver(buy_receiver);
-//			buyVo.setUser_tel(user_tel);
-//			buyVo.setUser_address(user_address);
-//			
-//			request.setAttribute("buyVo", buyVo);
-//			request.setAttribute("list", cartList);
+			//주문 성공시 사용자의 장바구니 비우기
+			cartDao.deleteAllCart(user_id);
 			
-			//성공시 성공 페이지로 이동
-			
-			//redirect를 해야 함..
-			
-		}else{
-			//실패시 실패 페이지로 이동 //재고 부족
+			//성공시 주문 번호를 가지고 성공 페이지로 이동
+			buy_num = buyDao.getBuyNum();
 		}
+//		else{
+//			//실패시 실패 페이지로 이동 //재고 부족
+//		}
 		
 		System.out.println("order service result: " + result);
 		
-		
-		page = IConstants.STR_REDIRECT + "main.cy";
+		page = IConstants.STR_REDIRECT + "buy-resul.user-cy?buy_num="+buy_num;
+//		page = IConstants.STR_REDIRECT + "main.cy";
 		return page;
 	}
 

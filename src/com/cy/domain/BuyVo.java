@@ -13,6 +13,7 @@ public class BuyVo {
 	private String buy_receiver;
 	
 	private String product_name;
+	private String product_img;
 	private int product_price;
 	
 	public BuyVo() {
@@ -83,12 +84,31 @@ public class BuyVo {
 		this.buy_receiver = buy_receiver;
 	}
 
+	public String getProduct_name() {
+		return product_name;
+	}
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+	public int getProduct_price() {
+		return product_price;
+	}
+	public void setProduct_price(int product_price) {
+		this.product_price = product_price;
+	}
+	public String getProduct_img() {
+		return product_img;
+	}
+	public void setProduct_img(String product_img) {
+		this.product_img = product_img;
+	}
+
 	@Override
 	public String toString() {
 		return "BuyVo [buy_num=" + buy_num + ", user_id=" + user_id + ", product_num=" + product_num
 				+ ", product_count=" + product_count + ", buy_date=" + buy_date + ", user_address=" + user_address
 				+ ", user_tel=" + user_tel + ", buy_receiver=" + buy_receiver + ", product_name=" + product_name
-				+ ", product_price=" + product_price + "]";
+				+ ", product_img=" + product_img + ", product_price=" + product_price + "]";
 	}
 	
 }

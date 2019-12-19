@@ -6,9 +6,13 @@ import javax.servlet.http.HttpSession;
 
 import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
+import com.cy.domain.UserVo;
+import com.cy.persistence.UserDao;
 
 public class PerSonalInformationService implements IShoppingMallService {
 
+	private UserDao userDao = UserDao.getInstance();
+	
 	@Override
 	public String excute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -22,6 +26,9 @@ public class PerSonalInformationService implements IShoppingMallService {
 			session.setAttribute("msg", "not_login");
 			return page;
 		}
+		
+		UserVo vo = userDao.getUserInfo(user_id);
+		request.setAttribute("vo", vo);
 		
 		page = "WEB-INF/views/personal_information.jsp";
 		return page;
