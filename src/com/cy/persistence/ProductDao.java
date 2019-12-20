@@ -10,6 +10,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.cy.domain.PagingDto;
 import com.cy.domain.ProductVo;
 
 public class ProductDao {
@@ -42,17 +43,31 @@ public class ProductDao {
 	}
 	
 	//main page, 제품 전체 조회
-	public List<ProductVo> getList(){
+	public List<ProductVo> getList(PagingDto pagingDto){
+//	public List<ProductVo> getList(){
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
 			conn = getConnection();
-			String sql = "select * from tbl_product p, tbl_category c "
-								 + " where p.category_code = c.category_code "
-								 + " order by product_num desc, product_reg_date desc";
+//			String sql = "select * from tbl_product p, tbl_category c "
+//								 + " where p.category_code = c.category_code "
+//								 + " order by product_num desc, product_reg_date desc";
+			
+			String sql = "select B.* from "
+					+ " (select rownum rnum, A.* from "
+					+ "(select "
+					+ " p.product_num, p.product_name, c.category_code, c.category_name, "
+					+ " p.product_content, p.product_price, p.product_img, p.product_stock, "
+					+ " p.product_reg_date "
+					+ " from tbl_product p inner join tbl_category c on(p.category_code = c.category_code) "
+					+ " order by p.product_num desc, p.product_reg_date desc) A)B "
+					+ " where rnum between ? and ?";
+			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pagingDto.getStartRow());
+			pstmt.setInt(2, pagingDto.getEndRow());
 			rs = pstmt.executeQuery();
 					
 			List<ProductVo> list = new ArrayList<>();
@@ -81,18 +96,32 @@ public class ProductDao {
 	}
 	
 	//해당 카테고리에 대한 제품들만 전체 조회
-	public List<ProductVo> getListByCategoryCode(String category_code){
+	public List<ProductVo> getListByCategoryCode(String category_code, PagingDto pagingDto){
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
 			conn = getConnection();
-			String sql = "select * from tbl_product p, tbl_category c "
-								 + " where p.category_code = c.category_code "
-								 + " and p.category_code = '" + category_code + "' "
-								 + " order by product_num desc, product_reg_date desc";
+//			String sql = "select * from tbl_product p, tbl_category c "
+//								 + " where p.category_code = c.category_code "
+//								 + " and p.category_code = '" + category_code + "' "
+//								 + " order by product_num desc, product_reg_date desc";
+			
+			String sql = "select B.* from "
+					+ " (select rownum rnum, A.* from "
+					+ "(select "
+					+ " p.product_num, p.product_name, c.category_code, c.category_name, "
+					+ " p.product_content, p.product_price, p.product_img, p.product_stock, "
+					+ " p.product_reg_date "
+					+ " from tbl_product p inner join tbl_category c on(p.category_code = c.category_code) "
+					+ " where c.category_code = '" + category_code +"'"
+					+ " order by p.product_num desc, p.product_reg_date desc) A)B "
+					+ " where rnum between ? and ?";
+			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pagingDto.getStartRow());
+			pstmt.setInt(2, pagingDto.getEndRow());
 			rs = pstmt.executeQuery();
 					
 			List<ProductVo> list = new ArrayList<>();
@@ -185,14 +214,7 @@ public class ProductDao {
 		
 		try {
 			conn = getConnection();
-//			product_num
-//			product_name
-//			category_code
-//			product_content
-//			product_price
-//			product_img
-//			product_stock
-//			product_reg_date
+			
 			String sql = "update tbl_product set "
 					+ " product_name = ?, "
 					+ " product_content = ?, "
@@ -259,4 +281,30 @@ public class ProductDao {
 			closeAll(conn, pstmt, rs);
 		} return null;
 	}
+	
+	
+	//페이징 처리를 위해 총 제품 수를 알아냄
+	public int getCount() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select count(*) cnt from tbl_product";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				int cnt = rs.getInt("cnt");
+				return cnt;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} return 0;
+	}
+	
+	//검색
+	
 }

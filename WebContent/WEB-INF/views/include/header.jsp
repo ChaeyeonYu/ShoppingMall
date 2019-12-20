@@ -20,12 +20,23 @@ a{
 	text-decoration: none;
 	color: black;
 }
+
+/* 페이징바 */
+.pagination{  
+  	text-align: center;  
+  	justify-content: center;
+}
+.pagination a{  
+  	color: black;
+}
+  
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 <script>
+
 $(function(){
 	
 	//검색
@@ -42,6 +53,8 @@ $(function(){
 		$("a").attr("style", "color:black");
 		$(this).attr("style", "color:red");
 	});
+	
+	
 	
 });
 </script>
@@ -125,7 +138,7 @@ $(function(){
 					 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown">ADMIN</a>
 					<div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 						 <a class="dropdown-item" href="category.admin-cy">제품 관리</a> 
-						 <a class="dropdown-item" href="user.admin-cy">회원 관리</a> 
+						 <a class="dropdown-item" href="order-list.admin-cy">주문 목록</a> 
 					</div>
 				</li>
 				</ul>

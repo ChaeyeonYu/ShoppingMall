@@ -59,50 +59,33 @@ public class BuyDao {
 		PreparedStatement pstmt2 = null;
 		ResultSet rs = null;
 		
-		System.out.println(list.size());
-		System.out.println(list);
-		
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
 			
 			String sql = "update tbl_product set product_stock = product_stock - ? where product_num = ?";
-			System.out.println(sql);
-			
 			int count = 0;
-			
-//			for(CartVo vo : list) {
-			for(int i=0; i<list.size(); i++) {
+			for(CartVo vo : list) {
 				pstmt = conn.prepareStatement(sql);
-				
-				CartVo vo = list.get(i);
-				System.out.println(vo);
 				pstmt.setInt(++count, vo.getProduct_count());
-				System.out.printf("%d, product_count: %d\n", count, vo.getProduct_count());
 				pstmt.setInt(++count, vo.getProduct_num());
-				System.out.printf("%d, product_num: %d\n", count, vo.getProduct_num());
-				
 				pstmt.executeUpdate();
+				count = 0;
 			}
-			
 			
 			String sql2 = "select count(*) cnt from tbl_product where product_num = ? and product_stock < 0";
-			System.out.println("===============================================");
-			System.out.println(sql2);
-			
-			int index2 = 0;
+			int count2 = 0;
 			for(CartVo vo : list) {
 				pstmt2 = conn.prepareStatement(sql2);
-				pstmt2.setInt(++index2, vo.getProduct_num());
-				System.out.printf("%d, %d\n", index2, vo.getProduct_num());
+				pstmt2.setInt(++count2, vo.getProduct_num());
 				rs = pstmt2.executeQuery();
-			}
-			
-			while(rs.next()) {
-				int cnt = rs.getInt("cnt");
-				System.out.println("cnt: " + cnt);
-				if(cnt > 0) {
-					return false;
+				count2 = 0;
+				
+				if(rs.next()) {
+					int cnt = rs.getInt("cnt");
+					if(cnt > 0) {
+						return false;
+					}
 				}
 			}
 			
@@ -124,13 +107,6 @@ public class BuyDao {
 			closeAll(null, pstmt, null);
 			closeAll(conn, pstmt2, rs);
 		} return false;
-		//내가 사는 리스트 ( 살상품 , 갯수)
-		//2 4
-		// -4
-		//-2
-		//검사 0이하야
-		//rollback--> 한개라도 있으면 retrun 
-		
 	}
 	
 	//재고 - 구매 할 개수 > 0이면 제품 테이블의 재고 수를 업데이트
@@ -143,10 +119,10 @@ public class BuyDao {
 			conn = getConnection();
 			
 			//재고 차감, 재고 검사
-//			boolean updateStockResult = updateStock(list);
-//			if(!updateStockResult) {
-//				return false;
-//			}
+			boolean updateStockResult = updateStock(list);
+			if(!updateStockResult) {
+				return false;
+			}
 			
 			System.out.println(list);
 			System.out.println(paramMap);
@@ -249,6 +225,7 @@ public class BuyDao {
 	}
 	
 	//사용자의 주문내역 전체 조회
+	//user_id = 로그인한 아이디
 	public List<BuyVo> getOrderListAll(String user_id){
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -273,7 +250,50 @@ public class BuyDao {
 				vo.setProduct_img(rs.getString("product_img"));
 				vo.setProduct_price(rs.getInt("product_price"));
 				vo.setProduct_count(rs.getInt("product_count"));
+				
 				vo.setBuy_date(rs.getTimestamp("buy_date"));
+				vo.setBuy_receiver(rs.getString("buy_receiver"));
+				vo.setUser_tel(rs.getString("user_tel"));
+				vo.setUser_address(rs.getString("user_address"));
+				list.add(vo);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
+		} return null;
+	}
+	
+	//관리자용 사용자 주문내역 조회
+	public List<BuyVo> getOrderListAllAdmin(){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select * from tbl_buy b, tbl_product p where b.product_num = p.product_num order by buy_num desc";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			List<BuyVo> list = new ArrayList<>();
+			
+			while(rs.next()) {
+				BuyVo vo = new BuyVo();
+				vo.setBuy_num(rs.getInt("buy_num"));
+				vo.setProduct_name(rs.getString("product_name"));
+				vo.setProduct_num(rs.getInt("product_num"));
+				vo.setProduct_img(rs.getString("product_img"));
+				vo.setProduct_price(rs.getInt("product_price"));
+				vo.setProduct_count(rs.getInt("product_count"));
+				
+				vo.setBuy_date(rs.getTimestamp("buy_date"));
+				vo.setBuy_receiver(rs.getString("buy_receiver"));
+				vo.setUser_id(rs.getString("user_id"));
+				vo.setUser_tel(rs.getString("user_tel"));
+				vo.setUser_address(rs.getString("user_address"));
+				
 				list.add(vo);
 			}
 			return list;

@@ -22,8 +22,8 @@ public class ShopService implements IShoppingMallService {
 		List<CategoryVo> categoryList = categoryDao.readCategory();
 		request.setAttribute("categoryList", categoryList);
 		
-		List<ProductVo> productList = productDao.getList();
-		request.setAttribute("productList", productList);
+//		List<ProductVo> productList = productDao.getList();
+//		request.setAttribute("productList", productList);
 		
 		return "WEB-INF/views/shop.jsp";
 	}

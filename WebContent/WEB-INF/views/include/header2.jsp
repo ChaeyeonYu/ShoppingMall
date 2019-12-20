@@ -124,7 +124,7 @@ $(function(){
 					 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown">ADMIN</a>
 					<div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 						 <a class="dropdown-item" href="category.admin-cy">제품 관리</a> 
-						 <a class="dropdown-item" href="user.admin-cy">회원 관리</a> 
+						 <a class="dropdown-item" href="order-list.admin-cy">주문 목록</a> 
 					</div>
 				</li>
 				</ul>

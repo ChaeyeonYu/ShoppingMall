@@ -18,6 +18,9 @@ $(function(){
 		alert("회원가입을 축하합니다!");
 	}
 	
+	//paging을 위한 변수
+	var page = 1;
+	
 	//function 제품 목록 조회
 	function getProductList(category_code){
 		$.getJSON("shop-service.ajax-cy", {"category_code" : category_code}, function(rData){
@@ -38,7 +41,7 @@ $(function(){
 				div += "<div style='text-align: center;'>";
 				if(this.product_img == null){
 					div += "<a href='#' class='product_detail' data-product-num=" + this.product_num + ">"
-					 	+"<img src='img/인형2.PNG' width='230' height='230' alt='default img'/></a>";
+					 	+"<img src='img/default.png' width='230' height='230' alt='default img'/></a>";
 				}else{
 					div += "<a href='#' class='product_detail' data-product-num=" + this.product_num + ">"
 						+ "<img src='upload/" + this.product_img + "' width='230' height='230' alt='product img'/></a>";
@@ -71,7 +74,7 @@ $(function(){
 		
 		//제품목록을 클릭한 카테고리에 해당하는 것들만 출력
 		if(now_category == "ALL"){
-			location.href = "shop.cy";
+			location.href = "main.cy?page="+page;
 		}else{
 			var category_code = $(this).attr("data-category-code");
 			getProductList(category_code);
@@ -81,6 +84,12 @@ $(function(){
 		$(".header_a:eq(0)").attr("style", "color:red");
 	});
 	
+	//paging @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	$(".paging").click(function(e){
+		e.preventDefault();
+		page = $(this).attr("href");
+		location.href = "main.cy?page="+page;
+	});
 	
 	//제품 이미지와 제목을 클릭했을 때 현재 클릭한 제품의 상세보기로 이동
 	$("#product_list_div").on("click", ".product_detail", function(e){
@@ -142,7 +151,7 @@ $(function(){
 					</c:when>
 					<c:otherwise>
 						<a href="#" class="product_detail" data-product-num="${productVo.product_num}">
-							<img src="img/인형2.PNG" width="230" height="230" alt="product img"/>
+							<img src="img/default.png" width="230" height="230" alt="product img"/>
 						</a>
 					</c:otherwise>	
 					</c:choose>
@@ -165,21 +174,49 @@ $(function(){
 
 <br><br>
 
-<!-- 더보기 START -->
-<!-- <div class="container-fluid"> -->
-<!-- 	<div class="row"> -->
-<!-- 		<div class="col-md-4"> -->
-<!-- 		</div> -->
-<!-- 		<div class="col-md-4"> -->
-<!-- 			<button type="button" class="btn btn-block btn-link"> -->
-<!-- 				<p style="color: black;">MORE</p>				 -->
-<!-- 			</button> -->
-<!-- 		</div> -->
-<!-- 		<div class="col-md-4"> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- </div> -->
-<!-- 더보기 END -->
+<!-- 페이징 START-->
+<div class="row" align="center">
+	<div class="col-md-1"></div>
+		<div class="col-md-10">
+				<ul class="pagination">
+				
+				<c:if test="${pagingDto.startPage != 1}">
+					<li>
+						<a class="page-link paging" href="${pagingDto.startPage -1}">Previous</a>
+					</li>
+				</c:if>	
+				
+				<c:forEach var="i" begin="${pagingDto.startPage}" end="${pagingDto.endPage}">
+					<li>
+						<c:choose>
+						<c:when test="${pagingDto.nowPage eq i}">
+							<a class="page-link active paging" href="${i}"
+							>${i}</a>
+						</c:when>
+						<c:otherwise>
+							<a class="page-link paging" href="${i}"
+							>${i}</a>
+						</c:otherwise>
+						</c:choose>
+					</li>
+				</c:forEach>
+					
+				<c:if test="${pagingDto.endPage != pagingDto.totalPage}">	
+					<li>
+						<a class="page-link paging" href="${pagingDto.endPage +1}">Next</a>
+					</li>
+				</c:if>
+				
+				</ul>
+		</div>
+	<div class="col-md-1"></div>
+</div>
+<!-- 페이징 END -->
+
+
+
+
+
 
 
 <br><br>

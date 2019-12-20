@@ -16,7 +16,7 @@
 
 사용자 - 장바구니 폼 O
 		 장바구니 구매 처리 O
-		 	재고 차감 @@@@@@@@@@@@@@@@@
+		 	재고 차감 O
 		 구매하기 폼(구매시 배송지 정보 기입) O
 		 	장바구니 전체, O
 		 	단품 바로 구매 O
@@ -36,24 +36,12 @@
 		 제품 카테고리 삭제 O
 		 제품 삭제 O
 		 
-		 회원 정보 전체보기 폼??
-		 회원 주문내역?? 
+		 회원 주문내역 전체보기 폼 O
 		 
 가게 소개 페이지도 넣기@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@		 
 		
-		
+==================================================================		
 https://wisefour.github.io/gabe-manual/ko/manual/admin/order
-
-rollback;
-update tbl_user set user_name = '뭉쨔' , user_address = '하와이 뭉치집', user_tel = '000' where user_id = 'hong';
-commit;
-
-select * from tbl_product;
-
-update tbl_product set product_stock = product_stock - 50 where product_num = 1;
-
-select count(*) from tbl_product where product_num = 1 and product_stock < 0;
-		 
 ==================================================================
 insert all
 
@@ -67,21 +55,13 @@ values(seq_buy_num.nextval, 'hong', 2, 5, sysdate, '울산 남구', '0102222222'
 
 select * from dual;
 
-commit;
-
-select * from tbl_buy;
-select * from tbl_user;
-
-TRUNCATE TABLE tbl_buy;
-
-update tbl_user 
-set user_address = '울산 남구 삼산 뭉치아파트 101동 101호' , 
-user_tel = '0101112222'
-where user_id = 'hong';
-
-update tbl_user 
-set user_address = '바뀌는지 보자' , 
-user_tel = '000'
-where user_id = 'hong';		 
 ==================================================================
-		 
+select B.* from 
+(select rownum rnum, A.* from
+(select  
+p.product_num, p.product_name, c.category_code, c.category_name, 
+p.product_content, p.product_price, p.product_img, p.product_stock, 
+p.product_reg_date
+from tbl_product p inner join tbl_category c on(p.category_code = c.category_code)
+order by p.product_num desc, p.product_reg_date desc) A)B
+where rnum between 1 and 10;		 

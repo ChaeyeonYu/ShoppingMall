@@ -16,7 +16,6 @@
 			TEL. 010-0000-0000
 		</address>
 		
-		
 		<strong>Copyright&copy;2019.12.00 Chaeyeon All rights reserved.</strong><br /> 
 		
 		</div>

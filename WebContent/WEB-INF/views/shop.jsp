@@ -26,7 +26,7 @@ $(function(){
 				div += "<div style='text-align: center;'>";
 				if(this.product_img == null){
 					div += "<a href='#' class='product_detail' data-product-num=" + this.product_num + ">"
-					 	+"<img src='img/인형2.PNG' width='230' height='230' alt='default img'/></a>";
+					 	+"<img src='img/default.png' width='230' height='230' alt='default img'/></a>";
 				}else{
 					div += "<a href='#' class='product_detail' data-product-num=" + this.product_num + ">"
 						+ "<img src='upload/" + this.product_img + "' width='230' height='230' alt='product img'/></a>";
@@ -129,7 +129,7 @@ $(function(){
 					</c:when>
 					<c:otherwise>
 						<a href="#" class="product_detail" data-product-num="${productVo.product_num}">
-							<img src="img/인형2.PNG" width="230" height="230" alt="product img"/>
+							<img src="img/default.png" width="230" height="230" alt="product img"/>
 						</a>
 					</c:otherwise>	
 					</c:choose>
@@ -149,6 +149,11 @@ $(function(){
 		<div class="col-md-1"></div>
 	</div>
 </div>
+
+<br><br>
+
+
+
 
 <br><br>
 

@@ -190,7 +190,7 @@ $(function(){
 							</c:when>
 							<c:otherwise>
 								<td><a href="#" class="product_a" data-product-num="${vo.product_num}">
-									<img alt="default img" src="img/인형1.PNG" width="100" height="100"/>
+									<img alt="default img" src="img/default.png" width="100" height="100"/>
 								</a></td>
 							</c:otherwise>
 						</c:choose>

@@ -1,19 +1,25 @@
 package com.cy.admin.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
+import com.cy.domain.BuyVo;
+import com.cy.persistence.BuyDao;
 
-public class UserAdministerService implements IShoppingMallService {
+public class OrderListService implements IShoppingMallService {
 
+	private BuyDao buyDao = BuyDao.getInstance();
+	
 	@Override
 	public String excute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		//관리자 기능
-		//회원 전체보기
+		//주문목록 전체보기
 		
 		String page = IConstants.STR_REDIRECT +  "main.cy";
 		
@@ -25,7 +31,10 @@ public class UserAdministerService implements IShoppingMallService {
 			return page;
 		}
 		
-		page = "WEB-INF/views/admin/admin_user.jsp";
+		List<BuyVo> list = buyDao.getOrderListAllAdmin();
+		request.setAttribute("list", list);
+		
+		page = "WEB-INF/views/admin/admin_order_list.jsp";
 		
 		return page;
 	}

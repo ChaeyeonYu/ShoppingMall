@@ -9,6 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.cy.common.IShoppingMallService;
+import com.cy.domain.PagingDto;
 import com.cy.domain.ProductVo;
 import com.cy.persistence.ProductDao;
 
@@ -20,10 +21,21 @@ public class ShopServiceAjax implements IShoppingMallService {
 	@Override
 	public String excute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		//제품 카테고리 클릭시 카테고리에 해당하는 제품들만 조회
+		//페이징
+		int totalCount = productDao.getCount();
+				
+		int nowPage = 1;
+		String strPage = request.getParameter("page");
+						
+		if(strPage!=null && !strPage.equals("")) {
+			nowPage = Integer.parseInt(strPage);
+		}
+		PagingDto pagingDto = new PagingDto(nowPage);
 		
+		
+		//제품 카테고리 클릭시 카테고리에 해당하는 제품들만 조회
 		String category_code = request.getParameter("category_code");
-		List<ProductVo> productList = productDao.getListByCategoryCode(category_code);
+		List<ProductVo> productList = productDao.getListByCategoryCode(category_code, pagingDto);
 		
 		JSONArray jArr = new JSONArray();
 		for(ProductVo productVo : productList) {
@@ -33,6 +45,7 @@ public class ShopServiceAjax implements IShoppingMallService {
 			jObj.put("product_img", productVo.getProduct_img());
 			jArr.add(jObj);
 		}
+		
 		String data = jArr.toJSONString();
 		request.setAttribute("data", data);
 		

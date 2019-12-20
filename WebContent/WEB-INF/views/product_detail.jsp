@@ -128,7 +128,7 @@ $(function(){
 					<img alt="product img" src="upload/${productVo.product_img}" width="300" height="300"/>
 				</c:when>
 				<c:otherwise>
-					<img alt="product img" src="img/인형1.PNG" width="300" height="300"/>
+					<img alt="product img" src="img/default.png" width="300" height="300"/>
 				</c:otherwise>
 				</c:choose>
 				
@@ -162,7 +162,7 @@ $(function(){
 				<br>
 				<!-- 구매 버튼 & 품절 알림 -->
 				<c:choose>
-					<c:when test="${productVo.product_stock == 0}">
+					<c:when test="${productVo.product_stock <= 0}">
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-md-12">
@@ -247,7 +247,7 @@ $(function(){
 					<img alt="product img" src="upload/${productVo.product_img}" align="middle"/>
 				</c:when>
 				<c:otherwise>
-					<img alt="product img" src="img/인형1.PNG" align="middle"/>
+					<img alt="product img" src="img/default.png" align="middle"/>
 				</c:otherwise>
 			</c:choose>
 			<br><br><br><br>
