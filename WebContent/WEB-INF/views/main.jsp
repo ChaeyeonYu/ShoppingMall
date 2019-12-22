@@ -18,12 +18,127 @@ $(function(){
 		alert("회원가입을 축하합니다!");
 	}
 	
+	//HOME(현재 페이지)에 붉은색
+	$(".header_a:eq(0)").attr("style", "color:red");
+	
 	//paging을 위한 변수
 	var page = 1;
 	
+	//category를 위한 변수
+	var category_code = "";
+
+	//search
+	var keyword = ""; 
+	$("#btn_search").on("click", function(e){
+		e.preventDefault();
+		keyword = $("#search_input").val();
+		location.href = "main.cy?page="+page+"&keyword="+keyword;
+	});
+	
+	//클릭한 카테고리를 붉은색으로 변경
+	var now_category = "ALL";
+	$(".product_a:eq(0)").attr("style", "color:red");
+	
+	$(".product_a").on("click", function(e){
+		//클릭한 카테고리를 붉은색으로 변경
+		now_category = $(this).text();
+		category_code = $(this).attr("data-category-code");
+		$("a").attr("style", "color:black");
+		$(this).attr("style", "color:red");
+		
+		//제품목록을 클릭한 카테고리에 해당하는 것들만 출력
+		if(now_category == "ALL"){
+			location.href = "main.cy?page=1";
+		}else{
+			$("#search_input").val("");
+			category_code = $(this).attr("data-category-code");
+			//ProductList =====================================
+			//해당 카테고리 클릭시 
+			//카테고리에 알맞은 제품을 보이게 함
+			//페이지는 무조건 1페이지를 보임
+			page = 1;
+			getProductList(category_code, page);
+			getPaging(category_code, page);
+		}
+		//HOME(현재 페이지)에 붉은색
+		$(".header_a:eq(0)").attr("style", "color:red");
+	});
+	
+	
+	//paging 
+// 	$(".paging").on("click", function(e){
+	$(document).on("click", ".paging", function(e){
+		e.preventDefault();
+		page = $(this).attr("href");
+// 		console.log("paging=================================");
+// 		console.log(page);
+// 		console.log(category_code);
+		
+		//page a태그 클릭시
+		//제품목록을 클릭한 카테고리에 해당하는 것들만 출력
+		if(now_category == "ALL"){
+			location.href = "main.cy?page="+page+"&keyword="+$("#search_input").val();
+		}else{
+// 			console.log("paging_other_category================================");
+// 			console.log(page);
+			getProductList(category_code, page);
+			getPaging(category_code, page);
+		}
+		
+		//HOME(현재 페이지)에 붉은색
+		$(".header_a:eq(0)").attr("style", "color:red");
+		
+	});
+	
+	//function paging
+	function getPaging(category_code, page){
+// 		console.log("getPaging==============================");
+		var sData = {
+				"category_code" : category_code,
+				"page" : page
+		}
+// 		console.log(sData);
+		
+		$.getJSON("shop-paging-service.ajax-cy", sData, function(rData){
+			$("#paging_div").empty();
+			
+			if(rData.totalCountByCategory != 0){
+				var div = "<div>";
+				div = "<ul class='pagination'>";
+				
+				if(rData.startPage != 1){
+					div += "<li><a class='page-link paging' href=" + (rData.startPage -1) + 
+							">Previous</a></li>"
+				}
+				for(var i=rData.startPage; i<=rData.endPage; i++){
+					if(rData.nowPage == i){
+						div += "<li><a class='page-link paging' href='" + i + 
+								"' style='color: red; font-weight: bold;'>" + i +"</a></li>"
+					}else{
+						div += "<li><a class='page-link paging' href='" + i + "'>" + i +"</a></li>"
+					}
+				}
+				if(rData.endPage != rData.totalPage){
+					div += "<li><a class='page-link paging' href=" + (rData.endPage +1) + 
+							">Next</a></li>"
+				}
+				div += "</ul></div>";
+				
+				$("#paging_div").append(div);
+			} //if
+		}); //$.getJSON
+	} //getPaging()
+	
 	//function 제품 목록 조회
-	function getProductList(category_code){
-		$.getJSON("shop-service.ajax-cy", {"category_code" : category_code}, function(rData){
+	function getProductList(category_code, page){
+// 		console.log("getProductList==============================");
+// 		console.log(category_code);
+// 		console.log(page);
+		var sData = {
+				"category_code" : category_code,
+				"page" : page
+		}
+		$.getJSON("shop-service.ajax-cy", sData, function(rData){
 			$("#product_list_div").empty();
 			
 			if(rData == ""){
@@ -55,41 +170,10 @@ $(function(){
 				if(count %5 == 0){ div += "<div style='clear:both;'></div>"; }
 				
 				$("#product_list_div").append(div);
-			});
-		});
-	}
+			}); //$.each
+		}); //$.getJSON
+	} //getProductList()
 	
-	//HOME(현재 페이지)에 붉은색
-	$(".header_a:eq(0)").attr("style", "color:red");
-	
-	//클릭한 카테고리를 붉은색으로 변경
-	var now_category = "ALL";
-	$(".product_a:eq(0)").attr("style", "color:red");
-	
-	$(".product_a").on("click", function(e){
-		//클릭한 카테고리를 붉은색으로 변경
-		var now_category = $(this).text();
-		$("a").attr("style", "color:black");
-		$(this).attr("style", "color:red");
-		
-		//제품목록을 클릭한 카테고리에 해당하는 것들만 출력
-		if(now_category == "ALL"){
-			location.href = "main.cy?page="+page;
-		}else{
-			var category_code = $(this).attr("data-category-code");
-			getProductList(category_code);
-		}
-		
-		//HOME(현재 페이지)에 붉은색
-		$(".header_a:eq(0)").attr("style", "color:red");
-	});
-	
-	//paging @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	$(".paging").click(function(e){
-		e.preventDefault();
-		page = $(this).attr("href");
-		location.href = "main.cy?page="+page;
-	});
 	
 	//제품 이미지와 제목을 클릭했을 때 현재 클릭한 제품의 상세보기로 이동
 	$("#product_list_div").on("click", ".product_detail", function(e){
@@ -105,6 +189,47 @@ $(function(){
 <!-- session을 지움 -->
 <!-- 처음 한 번만 띄울 것은(새고시에 안나오게) 세션에 넣고 날림 -->
 <c:remove var="msg" scope="session"/>
+
+<br>
+<!-- 검색 -->
+<div class="container-fluid" id="search_div">
+<form id="search_form">
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10">
+<div class="card-body row no-gutters align-items-center">
+      <div class="col-auto">
+      	<i class="fas fa-search h4 text-body"></i>
+      </div>
+      <!--end of col-->
+      <div class="col">
+      
+      <c:choose>
+      <c:when test="${not empty keyword}">
+       	<input class="form-control form-control-lg form-control-borderless" value="${keyword}"
+      		     type="search" placeholder="Search here .." id="search_input" name="keyword"/>
+      </c:when>
+      <c:otherwise>
+       	<input class="form-control form-control-lg form-control-borderless" 
+      		     type="search" placeholder="Search here .." id="search_input" name="keyword"/>
+      </c:otherwise>
+      </c:choose>
+      
+	 	
+      </div>
+      <!--end of col-->
+      <div class="col-auto">
+        <button type="submit" class="btn btn-lg btn-block btn-outline-danger" id="btn_search">Search</button>
+      </div>
+      <!--end of col-->
+      </div>
+</div>
+<div class="col-md-1"></div>
+</div>
+</form>
+</div>
+<!-- 검색 끝 -->
+
 
 <br><br>
 <!-- 상품 카테고리 보이기 -->
@@ -177,7 +302,7 @@ $(function(){
 <!-- 페이징 START-->
 <div class="row" align="center">
 	<div class="col-md-1"></div>
-		<div class="col-md-10">
+		<div class="col-md-10" id="paging_div">
 				<ul class="pagination">
 				
 				<c:if test="${pagingDto.startPage != 1}">
@@ -190,7 +315,7 @@ $(function(){
 					<li>
 						<c:choose>
 						<c:when test="${pagingDto.nowPage eq i}">
-							<a class="page-link active paging" href="${i}"
+							<a class="page-link paging" href="${i}" style="color: red; font-weight: bold;"
 							>${i}</a>
 						</c:when>
 						<c:otherwise>
@@ -214,11 +339,7 @@ $(function(){
 <!-- 페이징 END -->
 
 
-
-
-
-
-
 <br><br>
 
 <%@ include file="include/footer.jsp" %>
+

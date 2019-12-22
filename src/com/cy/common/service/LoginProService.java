@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
+import com.cy.domain.UserVo;
 import com.cy.persistence.UserDao;
 
 public class LoginProService implements IShoppingMallService {
@@ -25,7 +26,9 @@ public class LoginProService implements IShoppingMallService {
 		
 		switch (result) {
 		case UserDao.LOGIN_SUCCESS:
+			UserVo vo = userDao.getUserInfo(user_id);
 			session.setAttribute("user_id", user_id);
+			session.setAttribute("user_name", vo.getUser_name());
 			break;
 		case UserDao.INCORRECT_PASSWD:
 			session.setAttribute("msg", "login_incorrect_passwd");

@@ -28,25 +28,30 @@ public class ShoppingMallMainService implements IShoppingMallService {
 		List<CategoryVo> categoryList = categoryDao.readCategory();
 		request.setAttribute("categoryList", categoryList);
 		
-		//페이징
-		int totalCount = productDao.getCount();
+		//검색
+		String keyword = "";
+//		if(keyword!=null && !keyword.equals("")){
+		if(keyword!=null){
+			keyword = request.getParameter("keyword");
+		}
+		System.out.println("검색한 키워드: " + keyword);
 		
+		//페이징
 		int nowPage = 1;
 		String strPage = request.getParameter("page");
 				
 		if(strPage!=null && !strPage.equals("")) {
 			nowPage = Integer.parseInt(strPage);
 		}
-		PagingDto pagingDto = new PagingDto(nowPage);
+		//검색 추가ver pagingDto
+		PagingDto pagingDto = new PagingDto(keyword, nowPage);
 		
 		//제품 목록 전체
-//		List<ProductVo> productList = productDao.getList();
-		List<ProductVo> productList = productDao.getList(pagingDto);
+		List<ProductVo> productList = productDao.getList(pagingDto, keyword);
 		request.setAttribute("productList", productList);
 		request.setAttribute("pagingDto", pagingDto);
-		request.setAttribute("totalCount", totalCount);
+		request.setAttribute("keyword", keyword);
 		
-		System.out.println("totalCount: " + totalCount);
 		System.out.println("pagingDto: " + pagingDto);
 //		System.out.println("productList: " + productList);
 		
@@ -54,8 +59,6 @@ public class ShoppingMallMainService implements IShoppingMallService {
 		HttpSession session = request.getSession();
 		String user_id = (String)session.getAttribute("user_id");
 		request.setAttribute("user_id", user_id);
-		
-		//검색
 		
 		return "WEB-INF/views/main.jsp";
 	}

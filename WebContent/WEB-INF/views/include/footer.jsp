@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 
 
-
 <!-- footer start -->
 <div class="container-fluid">
 	<div class="row">

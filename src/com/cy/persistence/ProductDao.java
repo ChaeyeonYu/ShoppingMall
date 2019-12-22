@@ -43,17 +43,15 @@ public class ProductDao {
 	}
 	
 	//main page, 제품 전체 조회
-	public List<ProductVo> getList(PagingDto pagingDto){
-//	public List<ProductVo> getList(){
+	public List<ProductVo> getList(PagingDto pagingDto, String keyword){
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		System.out.println("DAO keyword: " + keyword);
+		
 		try {
 			conn = getConnection();
-//			String sql = "select * from tbl_product p, tbl_category c "
-//								 + " where p.category_code = c.category_code "
-//								 + " order by product_num desc, product_reg_date desc";
 			
 			String sql = "select B.* from "
 					+ " (select rownum rnum, A.* from "
@@ -61,8 +59,12 @@ public class ProductDao {
 					+ " p.product_num, p.product_name, c.category_code, c.category_name, "
 					+ " p.product_content, p.product_price, p.product_img, p.product_stock, "
 					+ " p.product_reg_date "
-					+ " from tbl_product p inner join tbl_category c on(p.category_code = c.category_code) "
-					+ " order by p.product_num desc, p.product_reg_date desc) A)B "
+					+ " from tbl_product p inner join tbl_category c on(p.category_code = c.category_code) ";
+			//검색을 한 경우
+			if(keyword!=null&&!keyword.equals("")){
+					sql += " where UPPER(p.product_name) like UPPER('%"+ keyword +"%')";
+			}
+					sql += " order by p.product_num desc, p.product_reg_date desc) A)B "
 					+ " where rnum between ? and ?";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -95,7 +97,49 @@ public class ProductDao {
 		return null;
 	}
 	
-	//해당 카테고리에 대한 제품들만 전체 조회
+	//해당 카테고리에 대한 제품들만 전체 조회 1 - 관리자
+	public List<ProductVo> getListByCategoryCode(String category_code){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select * from tbl_product p, tbl_category c "
+								 + " where p.category_code = c.category_code "
+								 + " and p.category_code = '" + category_code + "' "
+								 + " order by product_num desc, product_reg_date desc";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+					
+			List<ProductVo> list = new ArrayList<>();
+			
+			while(rs.next()){
+				ProductVo vo = new ProductVo();
+				vo.setProduct_num(rs.getInt("product_num"));
+				vo.setProduct_name(rs.getString("product_name"));
+				vo.setCategory_code(rs.getString("category_code"));
+				vo.setCategory_name(rs.getString("category_name"));
+				vo.setProduct_price(rs.getInt("product_price"));
+				vo.setProduct_content(rs.getString("product_content"));
+				vo.setProduct_img(rs.getString("product_img"));
+				vo.setProduct_stock(rs.getInt("product_stock"));
+				vo.setProduct_reg_date(rs.getTimestamp("product_reg_date"));
+				
+				list.add(vo);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
+		} 
+		return null;
+	}
+	
+	
+	//해당 카테고리에 대한 제품들만 전체 조회 2 - 사용자
 	public List<ProductVo> getListByCategoryCode(String category_code, PagingDto pagingDto){
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -103,10 +147,6 @@ public class ProductDao {
 		
 		try {
 			conn = getConnection();
-//			String sql = "select * from tbl_product p, tbl_category c "
-//								 + " where p.category_code = c.category_code "
-//								 + " and p.category_code = '" + category_code + "' "
-//								 + " order by product_num desc, product_reg_date desc";
 			
 			String sql = "select B.* from "
 					+ " (select rownum rnum, A.* from "
@@ -284,14 +324,20 @@ public class ProductDao {
 	
 	
 	//페이징 처리를 위해 총 제품 수를 알아냄
-	public int getCount() {
+	public int getCount(String keyword) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		System.out.println("DAO keyword count: " + keyword);
+		
 		try {
 			conn = getConnection();
-			String sql = "select count(*) cnt from tbl_product";
+			String sql = "select count(*) cnt from tbl_product ";
+			//검색을 한 경우
+			if(keyword!=null&&!keyword.equals("")){
+					sql += " where UPPER(product_name) like UPPER('%"+ keyword +"%')";
+			}
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -302,6 +348,33 @@ public class ProductDao {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
+		} return 0;
+	}
+	
+	//해당 장르에 대한 총 제품 수를 알아냄
+	public int getCountByCategory(String category_code) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select count(*) cnt from tbl_product "
+						+ " where category_code = '" + category_code + "'";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				int cnt = rs.getInt("cnt");
+				return cnt;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
 		} return 0;
 	}
 	

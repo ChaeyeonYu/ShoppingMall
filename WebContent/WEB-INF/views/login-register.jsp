@@ -16,6 +16,7 @@ $(function(){
 	var v = "${sessionScope.msg}";
 	
 	//아이디 중복체크 하기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//비밀번호 재입력 추가하기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	//회원가입 실패
 	if(v == "user_regist_fail") {
@@ -150,5 +151,7 @@ $(function(){
 	</div>
 </div>
 
+
+<br>
 
 <%@ include file="include/footer.jsp" %>

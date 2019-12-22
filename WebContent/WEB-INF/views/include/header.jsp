@@ -2,6 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
        
+<!-- Home Main(검색 추가), Login -->
+<!-- 검색 X  -->
+<!-- 회전목마 O -->        
+       
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +33,6 @@ a{
 .pagination a{  
   	color: black;
 }
-  
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -39,33 +42,25 @@ a{
 
 $(function(){
 	
-	//검색
-	$("#search_form").hide();
-	$("#search_a").click(function(){ $("#search_form").show(); });
-	
 	//클릭한 카테고리를 붉은색으로 변경
 	var now_header = "";
 	
 	$(".header_a").on("click", function(e){
 		var now_header = $(this).text();
-		console.log(now_header);
+// 		console.log(now_header);
 		
 		$("a").attr("style", "color:black");
 		$(this).attr("style", "color:red");
 	});
 	
-	
-	
 });
 </script>
 
 <title>chaeyeon design store</title>
-
 </head>
 
-
 <body>
-<br>  
+<br><br> 
 
 <!-- 로고, 네비 시작 -->
 <div class="container-fluid">
@@ -75,7 +70,7 @@ $(function(){
 		<div class="col-md-10">
 			<div class="row">
 				<div class="col-md-4">
-					<a href="main.cy"><img alt="LOGO" src="img/LOGO.PNG" /></a>
+					<a href="main.cy"><img alt="LOGO" src="img/CY_LOGO.PNG" /></a>
 				</div>
 <!-- NAV BAR START -->
 				<div class="col-md-4">
@@ -98,9 +93,6 @@ $(function(){
 									<a class="header_a nav-link" href="login-register.cy">LOGIN</a>
 								</c:otherwise>
 							</c:choose>
-						</li>
-						<li class="nav-item">
-							<a class="header_a nav-link" href="#" id="search_a">SEARCH</a>
 						</li>
 					</ul>
 				</div>
@@ -154,42 +146,44 @@ $(function(){
 </div>
 <!-- 로고, 네비 끝 -->
 
+<br>
 
 <!-- 검색 -->
-<div class="container-fluid" id="search_div">
-<form id="search_form">
-<div class="row">
-<div class="col-md-1"></div>
-<div class="col-md-10">
-<div class="card-body row no-gutters align-items-center">
-      <div class="col-auto">
-      	<i class="fas fa-search h4 text-body"></i>
-      </div>
-      <!--end of col-->
-      <div class="col">
-      	<input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search here ..">
-      </div>
-      <!--end of col-->
-      <div class="col-auto">
-        <button type="submit" class="btn btn-lg btn-block btn-outline-danger">Search</button>
-      </div>
-      <!--end of col-->
-      </div>
-</div>
-<div class="col-md-1"></div>
-</div>
-</form>
-</div>
+<!-- <div class="container-fluid" id="search_div"> -->
+<!-- <form id="search_form"> -->
+<!-- <div class="row"> -->
+<!-- <div class="col-md-1"></div> -->
+<!-- <div class="col-md-10"> -->
+<!-- <div class="card-body row no-gutters align-items-center"> -->
+<!--       <div class="col-auto"> -->
+<!--       	<i class="fas fa-search h4 text-body"></i> -->
+<!--       </div> -->
+<!--       end of col -->
+<!--       <div class="col"> -->
+<!-- 	 	 <input class="form-control form-control-lg form-control-borderless"  -->
+<!--       		     type="search" placeholder="Search here .." id="search_input" name="keyword"/> -->
+<!--       </div> -->
+<!--       end of col -->
+<!--       <div class="col-auto"> -->
+<!--         <button type="submit" class="btn btn-lg btn-block btn-outline-danger" id="btn_search">Search</button> -->
+<!--       </div> -->
+<!--       end of col -->
+<!--       </div> -->
+<!-- </div> -->
+<!-- <div class="col-md-1"></div> -->
+<!-- </div> -->
+<!-- </form> -->
+<!-- </div> -->
 <!-- 검색 끝 -->
 
-
+<br>
 <c:if test="${not empty user_id}">
 
 <div class="container-fluid" align="right">
 	<div class="row">
 		<div class="col-md-1"></div>
 		<div class="col-md-10" align="right">
-		${user_id}님 환영합니다.
+		${user_name}(${user_id})님 환영합니다.
 		</div>
 		<div class="col-md-1"></div>
 	</div>
@@ -197,9 +191,6 @@ $(function(){
 
 </c:if>
 
-
-
-<br>
 <!-- 회전목마 시작 -->
 	<div class="container-fluid">
 	<div class="row">

@@ -22,8 +22,6 @@ public class ShopServiceAjax implements IShoppingMallService {
 	public String excute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		//페이징
-		int totalCount = productDao.getCount();
-				
 		int nowPage = 1;
 		String strPage = request.getParameter("page");
 						
