@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
-import com.cy.persistence.CategoryDao;
 import com.cy.persistence.ProductDao;
 import com.cy.util.FileUploader;
 

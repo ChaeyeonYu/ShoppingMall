@@ -30,7 +30,6 @@ public class ShopService implements IShoppingMallService {
 		if(keyword!=null){
 		keyword = request.getParameter("keyword");
 		}
-		System.out.println("검색한 키워드: " + keyword);
 		
 		//페이징
 		int nowPage = 1;
@@ -44,8 +43,6 @@ public class ShopService implements IShoppingMallService {
 		PagingDto pagingDto = new PagingDto(keyword, nowPage);
 		
 		//제품 목록 전체
-//		List<ProductVo> productList = productDao.getList();
-//		request.setAttribute("productList", productList);
 		List<ProductVo> productList = productDao.getList(pagingDto, keyword);
 		request.setAttribute("productList", productList);
 		request.setAttribute("pagingDto", pagingDto);

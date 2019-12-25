@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
-import com.cy.domain.BuyVo;
 import com.cy.domain.CartVo;
 import com.cy.persistence.BuyDao;
 import com.cy.persistence.CartDao;

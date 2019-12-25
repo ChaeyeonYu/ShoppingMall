@@ -211,30 +211,30 @@ $(function(){
 <!-- 						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="../img/bg1.PNG" width="800" height="400"> -->
 						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="img/bg1.PNG" width="800" height="500">
 						<div class="carousel-caption">
-							<h4>First Thumbnail label</h4>
-							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-							</p>
+<!-- 							<h4>First Thumbnail label</h4> -->
+<!-- 							<p> -->
+<!-- 								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit. -->
+<!-- 							</p> -->
 						</div>
 					</div>
 					<div class="carousel-item">
 <!-- 						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="../img/bg2.PNG" width="800" height="400"> -->
 						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="img/bg2.PNG" width="800" height="500">
 						<div class="carousel-caption">
-							<h4>Second Thumbnail label</h4>
-							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-							</p>
+<!-- 							<h4>Second Thumbnail label</h4> -->
+<!-- 							<p> -->
+<!-- 								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit. -->
+<!-- 							</p> -->
 						</div>
 					</div>
 					<div class="carousel-item">
 <!-- 						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="../img/bg3.PNG" width="800" height="400"> -->
 						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="img/bg3.PNG" width="800" height="500">
 						<div class="carousel-caption">
-							<h4>Third Thumbnail label</h4>
-							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-							</p>
+<!-- 							<h4>Third Thumbnail label</h4> -->
+<!-- 							<p> -->
+<!-- 								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit. -->
+<!-- 							</p> -->
 						</div>
 					</div>
 				</div> <a class="carousel-control-prev" href="#carousel-509661" data-slide="prev"><span class="carousel-control-prev-icon"></span> <span class="sr-only">Previous</span></a> <a class="carousel-control-next" href="#carousel-509661" data-slide="next"><span class="carousel-control-next-icon"></span> <span class="sr-only">Next</span></a>

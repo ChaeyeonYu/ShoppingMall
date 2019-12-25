@@ -12,6 +12,12 @@ $(function(){
 		location.href = "product-insert.admin-cy?category_code=" + category_code ;
 	});
 	
+	//제품 클릭시 상세보기로 이동@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22
+	$(".product_a").on("click", function(e){
+		var product_num = $(this).attr("data-product-num");
+		location.href = "product-detail.cy?product_num="+product_num;
+	});
+	
 	//카테고리로 이동
 	$("#btn_category").click(function(){
 		location.href = "category.admin-cy";
@@ -107,13 +113,13 @@ $(function(){
 					<thead align="center">
 						<tr align="center">
 							<th></th>
-							<th>PRODUCT IMG</th>
-							<th>PRODUCT NAME</th>
-							<th>PRODUCT CONTENT</th>
-							<th>PRODUCT PRICE</th>
-							<th>PRODUCT REG_DATE</th>
-							<th>UPDATE</th>
-							<th>DELETE</th>
+							<th></th>
+							<th>제품정보</th>
+							<th>제품설명</th>
+							<th>가격</th>
+							<th>등록일</th>
+							<th>수정</th>
+							<th>삭제</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -122,13 +128,16 @@ $(function(){
 								<td align="center" class="numbering">${status.count}</td>
 								<c:choose>
 									<c:when test="${not empty vo.product_img}">
-										<td><img src="upload/${vo.product_img}" width="70"/></td>
+										<td><a href="#" class="product_a" data-product-num="${vo.product_num}">
+											<img src="upload/${vo.product_img}" width="70"/></a></td>
 									</c:when>
 									<c:otherwise>
-										<td><img src="img/ham.png" width="50"/></td>
+										<td><a href="#" class="product_a" data-product-num="${vo.product_num}">
+										<img src="img/default.png" width="50"/></a></td>
 									</c:otherwise>
 								</c:choose>
-								<td>${vo.product_name}</td>
+								<td><a href="#" class="product_a" data-product-num="${vo.product_num}">
+									${vo.product_name}</a></td>
 								
 								<td title="${vo.product_content}">
 								<c:choose>
@@ -139,7 +148,7 @@ $(function(){
 										<c:out value="${vo.product_content}"/>
 									</c:otherwise>
 								</c:choose>
-								
+
 								</td>
 <%-- 								<td>${vo.product_content}</td> --%>
 								<td>${vo.product_price}</td>
@@ -158,7 +167,6 @@ $(function(){
 	
 </c:otherwise>
 </c:choose>
-
 
 
 <br><br>

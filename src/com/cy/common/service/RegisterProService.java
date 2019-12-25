@@ -3,7 +3,6 @@ package com.cy.common.service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.Icon;
 
 import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
@@ -17,9 +16,9 @@ public class RegisterProService implements IShoppingMallService {
 	@Override
 	public String excute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String user_id = request.getParameter("user_id"); 
-		String user_passwd = request.getParameter("user_passwd"); 
-		String user_name = request.getParameter("user_name"); 
+		String user_id = request.getParameter("user_id_r"); 
+		String user_passwd = request.getParameter("user_passwd_r"); 
+		String user_name = request.getParameter("user_name_r"); 
 		
 		UserVo userVo = new UserVo();
 		userVo.setUser_id(user_id);
@@ -33,6 +32,7 @@ public class RegisterProService implements IShoppingMallService {
 		if (result == true){
 			path = IConstants.STR_REDIRECT + "main.cy";
 			session.setAttribute("user_id", user_id);
+			session.setAttribute("user_name", user_name);
 			session.setAttribute("msg", "user_regist_success");
 		}else{
 			session.setAttribute("msg", "user_regist_fail");

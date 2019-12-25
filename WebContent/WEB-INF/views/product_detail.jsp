@@ -6,37 +6,10 @@
 $(function(){
 	
 	//SHOP(현재 페이지)에 붉은색
-// 	$(".header_a:eq(1)").attr("style", "color:red");
+	$(".header_a:eq(1)").attr("style", "color:red");
 	
 // 	var v = "${sessionScope.msg}";
 	
-// 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//  할말?? START
-	$("#write_review_div").hide();
-	$("#list_review_div").hide();
-	$("#write_review_button").hide();
-	
-	//제품 상세
-	$("#product_detail_a").click(function(){
-		$("#product_detail_div").show();
-		$("#write_review_div").hide();
-		$("#list_review_div").hide();
-		$("#write_review_button").hide();
-	});
-	
-	//리뷰
-	$("#review_a").click(function(){
-		$("#product_detail_div").hide();
-		$("#list_review_div").show();
-		$("#write_review_button").show();
-	});
-	
-	//리뷰 작성
-	$("#write_review_button").click(function(){
-		$("#write_review_div").show();
-	});
-//  할말?? END
-// 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	//수량 버튼 SRATR
 	$(".plus").click(function(){
 		var num = $(".numBox").val();
@@ -196,7 +169,7 @@ $(function(){
 <br><br>
 <hr style="margin-left: 100px; margin-right: 100px;">
 
-<!-- 상세보기, 리뷰 NAV BAR START -->
+<!-- 상세보기 START -->
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-1">
@@ -210,18 +183,18 @@ $(function(){
 								<li class="nav-item">
 									<a class="menu_a nav-link active" href="#" id="product_detail_a">제품 상세</a>
 								</li>
-								<li class="nav-item">
-									<a class="menu_a nav-link" href="#" id="review_a">리뷰</a>
-								</li>
+<!-- 								<li class="nav-item"> -->
+<!-- 									<a class="menu_a nav-link" href="#" id="review_a">리뷰</a> -->
+<!-- 								</li> -->
 							</ul>
 						</div>
 						
 						<div class="col-md-4"></div>
 						
 						<div class="col-md-4">
-							<button type="submit" class="btn btn-block btn-outline-secondary" id="write_review_button">
-							리뷰 작성하기
-							</button>
+<!-- 							<button type="submit" class="btn btn-block btn-outline-secondary" id="write_review_button"> -->
+<!-- 							리뷰 작성하기 -->
+<!-- 							</button> -->
 						</div>
 				</div>
 		</div>
@@ -231,7 +204,7 @@ $(function(){
 		</div>
 	</div>
 </div>
-<!-- 상세보기, 리뷰 NAV BAR END -->
+<!-- 상세보기 NAV BAR END -->
 
 <br><br>
 
@@ -259,61 +232,8 @@ $(function(){
 	</div>
 </div>
 
-<!-- 리뷰작성 textarea & 작성완료 버튼 START-->
-<div class="container-fluid" id="write_review_div">
-	<div class="row">
-		<div class="col-md-1"></div>
-		<div class="col-md-10">
-			<form role="form">
-				<div class="form-group">
-					<textarea class="form-control" placeholder="리뷰를 작성해주세요~"></textarea>
-				</div>
-			</form>
-		</div>
-		<div class="col-md-1"></div>
-	</div>
-	
-	<div class="row">
-		<div class="col-md-1"></div>
-		<div class="col-md-10">
-			<button type="submit" class="btn btn-block btn-outline-secondary">
-				작성완료
-			</button>
-		</div>
-		<div class="col-md-1"></div>
-	</div>
-</div>
-<!-- 리뷰작성 textarea & 작성완료 버튼 END-->
-
 
 <br><br>
 
-<!-- 리뷰 목록 START -->
-<div class="container-fluid" id="list_review_div">
-	<div class="row">
-		<div class="col-md-1"></div>
-		<div class="col-md-10">
-<!-- MEDIA START -->
-			<div class="media">
-				<div class="media-body">
-					<h5 class="mt-0">홍뭉치</h5> 
-					좋아요!
-					<div class="media mt-3">
-						ㄴ
-						<div class="media-body">
-							<h5 class="mt-0">매니저</h5> 
-							애용해주셔서 감사합니다.
-						</div>
-					</div>
-				</div>
-			</div>
-<!-- MEDIA END -->			
-		</div>
-		<div class="col-md-1"></div>
-	</div>
-</div>
-<!-- 리뷰 목록 END-->
-
-<br><br><br>
 
 <%@ include file="include/footer.jsp" %>

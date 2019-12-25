@@ -12,8 +12,6 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.cy.domain.CartVo;
-import com.cy.domain.CategoryVo;
-import com.cy.domain.UserVo;
 
 public class CartDao {
 	

@@ -12,9 +12,6 @@ import com.cy.domain.ProductVo;
 import com.cy.persistence.ProductDao;
 import com.cy.util.FileUploader;
 import com.oreilly.servlet.MultipartRequest;
-import com.sun.org.apache.bcel.internal.generic.ICONST;
-
-import oracle.net.aso.p;
 
 public class ProductUpdateProService implements IShoppingMallService {
 

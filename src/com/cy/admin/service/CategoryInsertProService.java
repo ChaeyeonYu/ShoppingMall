@@ -3,7 +3,6 @@ package com.cy.admin.service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.Icon;
 
 import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;

@@ -7,8 +7,8 @@
 
 공통   - 메인화면 O
 		 로그인, 회원가입 폼 O
-		 회원가입시 아이디 중복확인 추가하기 @@@@@@@@@@@@@@@@@
-		 비밀번호 재입력도 추가하기			 @@@@@@@@@@@@@@@@@
+		 회원가입시 아이디 중복확인 추가하기 O
+		 비밀번호 재입력 O
 		 샵, 상품 상세보기 폼 O
 		 
 		 페이징 O
@@ -76,3 +76,33 @@ from tbl_product p inner join tbl_category c on(p.category_code = c.category_cod
 where UPPER(p.product_name) like UPPER('%card%')
 order by p.product_num desc, p.product_reg_date desc) A)B
 where rnum between 1 and 10;	 
+==================================================================
+TRUNCATE table tbl_cart;
+TRUNCATE table tbl_buy;
+--TRUNCATE table tbl_product;
+
+drop SEQUENCE seq_buy_num;
+drop SEQUENCE seq_cart_num;
+drop SEQUENCE seq_product_num;
+create SEQUENCE seq_buy_num;
+create SEQUENCE seq_cart_num;
+create SEQUENCE seq_product_num;
+
+commit;
+
+begin											
+	for i in 1..500 loop										
+		insert into tbl_product (product_num, product_name, category_code, product_content, 
+                                 product_price, product_stock)									
+		values (									
+			seq_product_num.nextval,								
+			'다이어리' || i,								
+			'D1',								
+			'귀여운 다이어리' || i,								
+			22000,								
+			100);								
+	end loop;										
+end;											
+/		
+
+

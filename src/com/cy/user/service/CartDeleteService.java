@@ -2,7 +2,6 @@ package com.cy.user.service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.cy.common.IShoppingMallService;
 import com.cy.persistence.CartDao;

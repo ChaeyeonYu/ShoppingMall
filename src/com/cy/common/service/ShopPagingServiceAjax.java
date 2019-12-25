@@ -1,12 +1,8 @@
 package com.cy.common.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.cy.common.IShoppingMallService;
@@ -29,8 +25,7 @@ public class ShopPagingServiceAjax implements IShoppingMallService {
 			nowPage = Integer.parseInt(strPage);
 		}
 		PagingDto pagingDto = new PagingDto(nowPage, category_code);
-		
-		System.out.println("ajax paging dto: " + pagingDto);
+//		System.out.println("ajax paging dto: " + pagingDto);
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("startPage", pagingDto.getStartPage());

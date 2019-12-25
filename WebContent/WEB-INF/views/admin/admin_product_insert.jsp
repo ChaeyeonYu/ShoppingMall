@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header2.jsp"%>    
 
-
 <script>
 $(function(){
 	
@@ -17,6 +16,12 @@ $(function(){
 	//카테고리로 이동
 	$("#btn_category").click(function(){
 		location.href = "category.admin-cy";
+	});
+	
+	//취소
+	$("#btn_cancel").click(function(){
+		var category_code = $(this).attr("data-category-code");
+		location.href = "product.admin-cy?category_code=" + category_code;
 	});
 	
 // 	$("#product_insert_form")
@@ -41,7 +46,7 @@ $(function(){
 	<div class="row">
 		<div class="col-md-1"></div>
 		<div class="col-md-10">
-		<form method="post" action="product-insert-pro.admin-cy" enctype="multipart/form-data">
+		<form method="post" action="product-insert-pro.admin-cy" enctype="multipart/form-data" id="product_insert_form">
 			<input type="hidden" name="category_code" value="${categoryVo.category_code}"/>
 			<table class="table" >
 				<tr>
@@ -65,7 +70,7 @@ $(function(){
 				<tr>
 					<th align="right">PRODUCT_STOCK</th>
 					<td><input type="text" style="width:100%;" name="product_stock" 
-							maxlength="7" placeholder="PRODUCT_STOCK"/></td>
+							maxlength="7" placeholder="PRODUCT_STOCK" required/></td>
 				</tr>
 				<tr>
 					<th align="right">PRODUCT_CONTENT</th>
@@ -80,6 +85,8 @@ $(function(){
 				
 				<button type="submit" class="btn btn-lg btn-outline-secondary" id="btn_add_product">ADD PRODUCT</button>
 				<button type="button" class="btn btn-lg btn-outline-secondary" id="btn_category">CATEGORY</button>
+				<button type="button" class="btn btn-lg btn-outline-secondary" 
+						data-category-code="${categoryVo.category_code}" id="btn_cancel">CANCEL</button>
 		</form>
 		</div>
 		<div class="col-md-1"></div>

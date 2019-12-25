@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
-import com.cy.domain.CategoryVo;
 import com.cy.domain.ProductVo;
 import com.cy.persistence.CategoryDao;
 import com.cy.persistence.ProductDao;

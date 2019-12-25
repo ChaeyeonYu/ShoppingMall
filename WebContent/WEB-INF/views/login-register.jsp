@@ -15,9 +15,6 @@ $(function(){
 // 	var v = "${param.msg}";
 	var v = "${sessionScope.msg}";
 	
-	//아이디 중복체크 하기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	//비밀번호 재입력 추가하기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	
 	//회원가입 실패
 	if(v == "user_regist_fail") {
 		alert("회원가입에 실패했습니다. 다시 가입하세요.");
@@ -32,9 +29,11 @@ $(function(){
 	//로그인
 	$("form[name=registerForm]").hide();
 	$("#login_h2").css("color", "red");
+	$("#result_span").text("");		
 	
 	//로그인 폼 보이기
 	$("#login_h2").click(function(){	
+		$("#result_span").text("");		
 		$("form[name=registerForm]").hide();
 		$("form[name=loginForm]").show();
 		$("#login_h2").css("color", "red");
@@ -47,10 +46,6 @@ $(function(){
 		$("#login_h2").css("color", "black");
 		$("#register_h2").css("color", "red");
 	});
-
-
-
-
 
 	//loginRegister(self) test@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // 	function loginRegister(self){
@@ -71,6 +66,80 @@ $(function(){
 // 			$("#register_h2").css("color", "red");
 // 		}
 // 	}
+
+	//아이디 중복확인을 위한 변수
+	var isCheckId = false;
+
+	//아이디 중복확인 체크
+	$("#btn_id_check").click(function(){
+		var check_user_id = $("input[name=user_id_r]").val();
+		
+		//아이디는 영문자와 숫자만 입력할 수 있도록 검사
+		for (var v=0; v < check_user_id.length; v++) { //각각의 코드값을 알아내 아이디 유효성 체크 
+				var keyCode = check_user_id.charCodeAt(v);
+				//영문자(97<=keyCode && keyCode<=122)  //숫자(48<=keyCode && keyCode<=57)
+	 	 		if ( !(97 <= keyCode && keyCode <= 122) && !(48 <= keyCode && keyCode <= 57) ) { 	
+					alert("유효하지 않은 아이디입니다.\n영문자와 숫자 조합으로 입력하세요.");
+					$("input[name=user_id_r]").val("").focus();
+					return false; 
+				} //if
+		} //for
+		
+		var sData = { "check_user_id" : check_user_id }
+					
+		$.get("check-id.ajax-cy", sData, function(rData){
+			var data = rData.trim();
+			
+			if(data == "can_not_be_used_id"){
+				$("#result_span").text("사용중인 아이디입니다.");
+			}else if(data == "available_id"){
+				$("#result_span").text("사용 가능한 아이디입니다.");
+				isCheckId = true;
+			}
+			
+		}); //$.get
+	}); //$("#btn_id_check").click
+	
+	//아이디 입력칸에 keyevent 발생시 아이디 중복체크를 다시 받도록 설정
+	$("input[name=user_id_r]").keyup(function(e) {
+		isCheckId = false;
+		$("#result_span").text("");
+	});
+
+	//회원가입시
+	//필수값 입력 공백검사
+	//비밀번호와 비밀번호 재입력 값 체크
+	$("#register_form").submit(function(){
+		var user_id = $("input[name=user_id_r]").val();
+		var passwd = $("input[name=user_passwd_r]").val();
+		var passwd2 = $("input[name=user_passwd_r2]").val();
+		
+		//비밀번호와 비밀번호 재입력 값 체크
+		if(passwd!=passwd2){
+			$("input[name=user_passwd_r2]").focus();
+			alert("비밀번호와 비밀번호입력이 일치하지 않습니다.");
+			return false;			
+		}
+		
+		//아이디 중복 체크 여부 검사
+		if(isCheckId == false){
+			alert("아이디 중복 체크를 해주세요.");
+			return false;
+		}
+		
+		//아이디는 영문자와 숫자만 입력할 수 있도록 검사
+		for (var v=0; v < user_id.length; v++) { //각각의 코드값을 알아내 아이디 유효성 체크 
+				var keyCode = user_id.charCodeAt(v);
+				//영문자(97<=keyCode && keyCode<=122)  //숫자(48<=keyCode && keyCode<=57)
+	 	 		if ( !(97 <= keyCode && keyCode <= 122) && !(48 <= keyCode && keyCode <= 57) ) { 	
+					alert("유효하지 않은 아이디입니다.\n영문자와 숫자 조합으로 입력하세요.");
+					$("input[name=user_id_r]").val("").focus();
+					return false; 
+				} //if
+		} //for
+		
+		$("#register_form").submit();
+	});		
 });
 </script>
 
@@ -122,32 +191,48 @@ $(function(){
 			<form name="loginForm" action="login-login-pro.cy" method="post">
 				<div class="form-group">
 <!-- 					<input type="text" class="form-control" name="user_id" placeholder="ID*" maxlength="20" required/> -->
-					<input type="text" class="form-control" name="user_id" placeholder="ID*" maxlength="20" value = "hong" required/>
+					<input type="text" class="form-control" name="user_id" placeholder="ID*" maxlength="20" required/>
 				</div>
 				<div class="form-group">
 <!-- 					<input type="text" class="form-control" name="user_passwd" placeholder="PASSWD*" maxlength="20" required/> -->
-					<input type="text" class="form-control" name="user_passwd" placeholder="PASSWD*" maxlength="20" value = "1234" required/>
+					<input type="password" class="form-control" name="user_passwd" placeholder="PASSWD*" maxlength="20" required/>
 				</div>
 				<button type="submit" class="btn btn-block btn-outline-danger">LOGIN</button>
 			</form>
 <!-- LOGIN FORM	END -->
 <!-- REGISTER FORM START-->		
-			<form name="registerForm" action="login-register-pro.cy" method="post">
+			<form name="registerForm" action="login-register-pro.cy" method="post" id="register_form">
+			
+				<div class="row">
+				<div class="col-md-8">
 				<div class="form-group">
-					<input type="text" class="form-control" name="user_id" placeholder="ID*" maxlength="20" required/>
+						<input type="text" class="form-control" name="user_id_r" placeholder="ID*" maxlength="20" required/>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<button type="button" class="btn btn-outline-danger btn-block" id="btn_id_check">
+						CHECK
+					</button>
+				</div>
+				</div>
+				
+				<div class="form-group">
+					<input type="text" class="form-control" name="user_name_r" placeholder="NAME*" maxlength="20" required/>
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" name="user_name" placeholder="NAME*" maxlength="20" required/>
+					<input type="password" class="form-control" name="user_passwd_r" placeholder="PASSWD*" maxlength="20" required/>
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" name="user_passwd" placeholder="PASSWD*" maxlength="20" required/>
+					<input type="password" class="form-control" name="user_passwd_r2" placeholder="RETYPE PASSWD*" maxlength="20" required/>
 				</div>
-				<button type="submit" class="btn btn-block btn-outline-danger">REGISTER</button>
+				<button type="submit" class="btn btn-block btn-outline-danger" id="btn_register">REGISTER</button>
 			</form>
 <!-- REGISTER FORM END-->			
 		</div>
 		
-		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			 <span id="result_span"></span>
+		</div>
 	</div>
 </div>
 

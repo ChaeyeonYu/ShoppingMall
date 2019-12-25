@@ -1,6 +1,5 @@
 package com.cy.admin.service;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,6 @@ import com.cy.domain.ProductVo;
 import com.cy.persistence.ProductDao;
 import com.cy.util.FileUploader;
 import com.oreilly.servlet.MultipartRequest;
-import com.sun.org.apache.bcel.internal.generic.ICONST;
 
 public class ProductInsertProService implements IShoppingMallService {
 
@@ -37,13 +35,15 @@ public class ProductInsertProService implements IShoppingMallService {
 		String category_code = multi.getParameter("category_code");
 		String product_name = multi.getParameter("product_name");
 		int product_price = Integer.parseInt(multi.getParameter("product_price"));
-		int product_stock = Integer.parseInt(multi.getParameter("product_stock"));
+		int	product_stock = Integer.parseInt(multi.getParameter("product_stock"));
 		String product_content = multi.getParameter("product_content");
 		
 		Enumeration<?> enumer = multi.getFileNames();
 		String filename = (String)enumer.nextElement();
 		String fileSystemName = multi.getFilesystemName(filename);
 		String product_img = fileSystemName;
+		
+//		if(product_stock!)
 		
 		ProductVo productVo = new ProductVo(0, product_name, category_code, null, product_content, product_price, 
 											product_img, product_stock, null);

@@ -1,17 +1,13 @@
 package com.cy.user.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cy.common.IConstants;
 import com.cy.common.IShoppingMallService;
-import com.cy.domain.CartVo;
 import com.cy.domain.ProductVo;
 import com.cy.domain.UserVo;
-import com.cy.persistence.CartDao;
 import com.cy.persistence.ProductDao;
 import com.cy.persistence.UserDao;
 

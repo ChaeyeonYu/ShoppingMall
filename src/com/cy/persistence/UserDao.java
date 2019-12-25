@@ -44,6 +44,32 @@ public class UserDao {
 		if (rs != null) try { rs.close(); } catch (Exception e) { }
 	}
 	
+	//아이디 중복확인 체크
+	public boolean checkId(String user_id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select count(*) cnt from tbl_user where user_id = '" + user_id + "'";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				int count = rs.getInt("cnt");
+				if(count > 0) {
+					return true; //조회 성공 //중복 아이디
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
+		}
+		return false; //조회 실패 //중복되지 않은 아이디
+	}
+	
 	//회원가입
 	public boolean insertUser(UserVo vo){
 		Connection conn = null;

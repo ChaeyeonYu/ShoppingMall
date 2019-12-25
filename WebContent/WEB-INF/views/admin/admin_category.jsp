@@ -95,10 +95,11 @@ $(function(){
 					<thead align="center">
 						<tr align="center">
 							<th></th>
-							<th>CATEGORY CODE</th>
-							<th>CATEGORY NAME</th>
-							<th>UPDATE</th>
-							<th>DELETE</th>
+							<th>코드</th>
+							<th>이름</th>
+							<th>수량</th>
+							<th>수정</th>
+							<th>삭제</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -107,6 +108,7 @@ $(function(){
 								<td align="center" class="numbering">${status.count}</td>
 								<td><a data-category-code="${vo.category_code}" href="#" class="product_a">${vo.category_code}</a></td>
 								<td><a data-category-code="${vo.category_code}" href="#" class="product_a">${vo.category_name}</a></td>
+								<td>${vo.cnt}</td>
 								<td><button class="btn_update btn btn-lg btn-outline-secondary" 
 									data-category-code="${vo.category_code}" data-category-name="${vo.category_name}">UPDATE</button></td>
 								<td><button class="btn_delete btn btn-lg btn-outline-secondary"

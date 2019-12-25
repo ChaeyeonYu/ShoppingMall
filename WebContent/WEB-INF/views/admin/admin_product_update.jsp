@@ -12,6 +12,12 @@ $(function(){
 		location.href = "category.admin-cy";
 	});
 	
+	//취소
+	$("#btn_cancel").click(function(){
+		var category_code = $(this).attr("data-category-code");
+		location.href = "product.admin-cy?category_code=" + category_code;
+	});
+	
 	//폼 전송시 새로운 이미지를 등록했는지 확인
 	$("#product_update_form").submit(function(){
 		var new_product_img = $("input[name=new_product_img]").val();
@@ -100,6 +106,8 @@ $(function(){
 				
 				<button type="submit" class="btn btn-lg btn-outline-secondary" id="btn_add_product">UPDATE</button>
 				<button type="button" class="btn btn-lg btn-outline-secondary" id="btn_category">CATEGORY</button>
+				<button type="button" class="btn btn-lg btn-outline-secondary" 
+						data-category-code="${productVo.category_code}" id="btn_cancel">CANCEL</button>
 		</form>
 		</div>
 		<div class="col-md-1"></div>

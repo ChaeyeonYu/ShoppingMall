@@ -4,6 +4,10 @@
 
 <script>
 $(function(){
+	//카테고리로 이동
+	$("#btn_category").click(function(){
+		location.href = "category.admin-cy";
+	});
 });
 </script>
 
@@ -39,6 +43,7 @@ $(function(){
 				</table>
 				
 				<button type="submit" class="btn btn-lg btn-outline-secondary" id="btn_add_category">ADD CATEGORY</button>
+				<button type="button" class="btn btn-lg btn-outline-secondary" id="btn_category">CANCEL</button>
 		</form>
 		</div>
 		<div class="col-md-1"></div>

@@ -47,8 +47,7 @@ public class ProductDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		System.out.println("DAO keyword: " + keyword);
+//		System.out.println("DAO keyword: " + keyword);
 		
 		try {
 			conn = getConnection();
@@ -328,8 +327,7 @@ public class ProductDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		System.out.println("DAO keyword count: " + keyword);
+//		System.out.println("DAO keyword count: " + keyword);
 		
 		try {
 			conn = getConnection();

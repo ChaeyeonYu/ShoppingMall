@@ -4,11 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -16,8 +13,6 @@ import javax.sql.DataSource;
 
 import com.cy.domain.BuyVo;
 import com.cy.domain.CartVo;
-import com.cy.domain.CategoryVo;
-import com.cy.domain.UserVo;
 
 public class BuyDao {
 //	public static final int ORDER_FAIL = -1;

@@ -11,9 +11,6 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.cy.domain.CategoryVo;
-import com.cy.domain.UserVo;
-
-import oracle.net.aso.p;
 
 public class CategoryDao {
 	
@@ -53,7 +50,12 @@ public class CategoryDao {
 		
 		try {
 			conn = getConnection();
-			String sql = "select * from tbl_category order by category_code asc, category_name asc";
+//			String sql = "select * from tbl_category order by category_code asc, category_name asc";
+			String sql = "select c.category_code, c.category_name, "
+					+ " (select count(*) from tbl_product p where c.category_code = p.category_code) cnt "
+					+ " from tbl_category c, tbl_product p "
+					+ " group by c.category_code, c.category_name "
+					+ " order by c.category_code asc, c.category_name asc";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -63,6 +65,7 @@ public class CategoryDao {
 				CategoryVo vo = new CategoryVo();
 				vo.setCategory_code(rs.getString("category_code"));
 				vo.setCategory_name(rs.getString("category_name"));
+				vo.setCnt(rs.getInt("cnt"));
 				list.add(vo);
 			}
 			return list;

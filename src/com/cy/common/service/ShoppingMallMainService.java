@@ -13,9 +13,6 @@ import com.cy.domain.ProductVo;
 import com.cy.persistence.CategoryDao;
 import com.cy.persistence.ProductDao;
 
-import javafx.scene.control.Pagination;
-import oracle.net.aso.p;
-
 public class ShoppingMallMainService implements IShoppingMallService {
 
 	private CategoryDao categoryDao = CategoryDao.getInstance();
@@ -34,7 +31,7 @@ public class ShoppingMallMainService implements IShoppingMallService {
 		if(keyword!=null){
 			keyword = request.getParameter("keyword");
 		}
-		System.out.println("검색한 키워드: " + keyword);
+//		System.out.println("검색한 키워드: " + keyword);
 		
 		//페이징
 		int nowPage = 1;
@@ -52,7 +49,7 @@ public class ShoppingMallMainService implements IShoppingMallService {
 		request.setAttribute("pagingDto", pagingDto);
 		request.setAttribute("keyword", keyword);
 		
-		System.out.println("pagingDto: " + pagingDto);
+//		System.out.println("pagingDto: " + pagingDto);
 //		System.out.println("productList: " + productList);
 		
 		//화면에 띄울 로그인 정보
