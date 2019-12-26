@@ -259,13 +259,16 @@ $(function(){
 
 <br>
 <!-- 본문 -->
-<div class="container-fluid text-center" align="center" style="width:100%;">
-	<div class="row text-center" align="center">
+<div class="container-fluid text-center" style="width:100%;">
+	<div class="row text-center">
 		<div class="col-md-1"></div>
-		<div class="col-md-10 text-center" id="product_list_div" align="center">
+		<div class="col-md-10 text-center" id="product_list_div" style="margin-left:100px">
 		
 			<c:forEach items="${productList}" var="productVo" varStatus="status">
-				<div style="float:left; text-align:center; margin:10px">
+<!-- 			<div align="center">  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@--> 
+				<div style="float:left; text-align:center; margin:10px;" >
+<!-- 				<div style="float:left; text-align:center; margin:10px; width: 100%" > -->
+<!-- 				<div style="text-align:center; margin:10px"> -->
 					<div style="text-align: center;">
 					
 					<c:choose>
@@ -287,6 +290,8 @@ $(function(){
 						</a>
 					</div>	
 				</div>
+<!-- 				</div> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+				
 				<c:if test="${status.count % 5 == 0}">
 					<div style="clear:both;"></div>
 				</c:if>

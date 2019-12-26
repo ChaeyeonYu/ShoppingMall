@@ -208,8 +208,8 @@ $(function(){
 				</ol>
 				<div class="carousel-inner">
 					<div class="carousel-item active">
-<!-- 						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="../img/bg1.PNG" width="800" height="400"> -->
-						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="img/bg1.PNG" width="800" height="500">
+<!-- 						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="img/bg1.PNG" width="800" height="500"> -->
+						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="img/bg11.PNG" width="800" height="500">
 						<div class="carousel-caption">
 <!-- 							<h4>First Thumbnail label</h4> -->
 <!-- 							<p> -->
@@ -219,7 +219,8 @@ $(function(){
 					</div>
 					<div class="carousel-item">
 <!-- 						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="../img/bg2.PNG" width="800" height="400"> -->
-						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="img/bg2.PNG" width="800" height="500">
+<!-- 						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="img/bg2.PNG" width="800" height="500"> -->
+						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="img/bg22.PNG" width="800" height="500">
 						<div class="carousel-caption">
 <!-- 							<h4>Second Thumbnail label</h4> -->
 <!-- 							<p> -->
